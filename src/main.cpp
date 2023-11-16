@@ -1,9 +1,16 @@
 #include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "stackType.h"
+#include "queueType.h"
+#include "Player.h"
 
-int main(void)
+int main()
 {
+    // START Game setup
+    auto playerQueue = new queueType<Player>(20);
+
+    // START OpenGL code
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -11,7 +18,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Hello Wordle!", nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();

@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.22)
 project(cmpe126project)
 
 set(CMAKE_CXX_STANDARD 17)
-#set(PROJECT_SOURCE_DIR /home/neal/cmpe126project/cmpe126project)
-set(WIN32 1)
 
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -23,7 +21,14 @@ elseif (APPLE)
     link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLEW/lib)
 endif ()
 
-set(SOURCE_FILES main.cpp)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+set(SOURCE_FILES
+        include/queueType.h
+        include/stackType.h
+        include/Player.h
+        src/Player.cpp
+        src/main.cpp)
 add_definitions(-DGLEW_STATIC)
 add_executable(cmpe126project ${SOURCE_FILES})
 
