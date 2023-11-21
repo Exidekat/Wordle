@@ -3,6 +3,7 @@ ALL*
 cmpe126project*
 ZERO_CHECK*
 .idea*
+.vs*
 
 CMakeFiles*
 CMakeCache*
