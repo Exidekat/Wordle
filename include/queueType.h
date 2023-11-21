@@ -138,13 +138,15 @@ void queueType<Type>::deleteQueue()
         //mod operator to advance queueFront
         //because the array is circular
     }
-    else
+    else {
         cout << "Cannot remove from an empty queue." << endl;
+    }
 } //end deleteQueue
 
 template <class Type>
-void queueType<Type>::moveNthFront(int n) {
-    if (!isEmptyQueue() and n >= -1)
+void queueType<Type>::moveNthFront(int n) 
+{
+    if (!isEmptyQueue() && n >= -1)
     {
         if (n-2 < queueRear-queueFront) {
             Type val = list[queueFront + n - 1];

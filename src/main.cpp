@@ -1,6 +1,7 @@
 #include <iostream>
-#include "GL/glew.h"
+#include "glad/gl.h"
 #include "GLFW/glfw3.h"
+
 #include "stackType.h"
 #include "queueType.h"
 #include "Player.h"
@@ -28,9 +29,10 @@ int main()
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    if (glewInit() != GLEW_OK)
-    {
-        std::cout << "Error!" << std::endl;
+    int version = gladLoadGL(glfwGetProcAddress);
+    if (version == 0) {
+        printf("Failed to initialize OpenGL context\n");
+        return -1;
     }
 
     std::cout << glGetString(GL_VERSION) << std::endl;

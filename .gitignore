@@ -1,4 +1,16 @@
+.DS_store
+ALL*
+cmpe126project*
+ZERO_CHECK*
+.idea*
+
+CMakeFiles*
 CMakeCache*
+cmake-build-debug*
+Debug*
+out*
+x64*
+
 cmake_install.cmake
-cmake-build-debug/*
+CMAKE
 Makefile
