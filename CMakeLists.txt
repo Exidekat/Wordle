@@ -6,31 +6,38 @@ set(CMAKE_CXX_STANDARD 17)
 if (WIN32)
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang" )
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-mingw-w64)
-        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-x86_64)
+        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-mingw-w64)
+        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-x86_64)
     else()
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-vc2022)
+        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-vc2022)
     endif()
 
 elseif (APPLE)
     set(CMAKE_CXX_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11")
-    link_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/lib-arm64) 
+    link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-arm64)
 endif ()
+link_directories(${PROJECT_SOURCE_DIR}/Dependencies/freetype/libs)
+link_directories(/Users/exide/anaconda3/lib)
 
-include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLFW/include)
-include_directories(${PROJECT_SOURCE_DIR}/Dependencies/GLAD/include)
+include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glad/include)
+include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/include)
+include_directories(${PROJECT_SOURCE_DIR}/Dependencies/freetype/include)
+include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glm)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(SOURCE_FILES
-        Dependencies/GLAD/src/gl.c
+        Dependencies/glad/src/gl.c
 
         include/queueType.h
         include/stackType.h
         include/Player.h
+        include/render.h
+        include/shape.h
         src/Player.cpp
+        src/render.cpp
+        src/shape.cpp
         src/main.cpp)
 add_definitions(-DGLEW_STATIC)
 add_executable(cmpe126project ${SOURCE_FILES})
-
-target_link_libraries(cmpe126project glfw3)
+target_link_libraries(cmpe126project freetype glfw3)
