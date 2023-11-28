@@ -120,13 +120,6 @@ int main()
             100.0, 400.0
     };
 
-
-    VertexBuffer* cvbo = new VertexBuffer(data);    //
-    cvbo->bind();                                   //  todo: ask andy how work
-    VertexArray* cvao = new VertexArray();          //
-    cvao->vbo(cvbo, {2});                           //
-
-
     /* Load glyph shader */
     Shader glyphShader(glyph_vertexShaderPath, glyph_fragmentShaderPath);
     glProgramUniformMatrix4fv(glyphShader.ID, glGetUniformLocation(glyphShader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
@@ -143,7 +136,7 @@ int main()
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         //top 'welcome' bar
-        //RenderShape(Shape::Rectangle, shapeShader, cvao, cvbo, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, { 0.0f, 0.0f, 1.0f, 1.0f });
+        RenderShape(Shape::Rectangle, shapeShader, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, { 0.0f, 0.0f, 1.0f, 1.0f });
         RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, top_rgb);
         //RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, top_rgb);
 

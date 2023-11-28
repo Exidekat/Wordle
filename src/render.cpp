@@ -97,113 +97,9 @@ void Shader::setFloat(const std::string& name, float value) const
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
 
-VertexBuffer::VertexBuffer(const std::vector<float>& data, VertexBuffer::Mode mode) : m_Size(data.size()) {
-    glGenBuffers(1,&m_Handle);
-    glBufferData(m_Handle, data.size() * sizeof(float), data.data(), static_cast<GLenum>(mode));
-}
-
-VertexBuffer::VertexBuffer(size_t size, VertexBuffer::Mode mode) : m_Size(size) {
-    glGenBuffers(1,&m_Handle);
-    glBufferData(m_Handle, size * sizeof(float), nullptr, static_cast<GLenum>(mode));
-}
-
-VertexBuffer::~VertexBuffer() {
-    glDeleteBuffers(1, &m_Handle);
-}
-
-void VertexBuffer::bind() const {
-    glBindBuffer(GL_ARRAY_BUFFER, m_Handle);
-}
-
-uint32_t VertexBuffer::getHandle() const noexcept {
-    return m_Handle;
-}
-
-void VertexBuffer::set(const std::vector<float>& data, VertexBuffer::Mode mode) {
-    glBufferData(m_Handle, data.size() * sizeof(float), data.data(), static_cast<GLenum>(mode));
-    m_Size = data.size();
-}
-
-void VertexBuffer::clear(VertexBuffer::Mode mode) {
-    glBufferData(m_Handle, 0, nullptr, static_cast<GLenum>(mode));
-}
-
-void VertexBuffer::resize(size_t newSize, VertexBuffer::Mode mode) {
-    glBufferData(m_Handle, newSize * sizeof(float), nullptr, static_cast<GLenum>(mode));
-}
-
-void VertexBuffer::update(const std::vector<float>& data) {
-    glBufferSubData(m_Handle, 0, data.size() * sizeof(float), data.data());
-}
-
-size_t VertexBuffer::size() const noexcept {
-    return m_Size;
-}
-
-VertexArray::VertexArray() {
-    glGenVertexArrays(1, &m_Handle);
-}
-
-VertexArray::~VertexArray() {
-    glDeleteVertexArrays(1, &m_Handle);
-}
-
-void VertexArray::vbo(const VertexBuffer& vbo, std::initializer_list<size_t> sizes) {
-    // todo; figure out if this should ever be used. note: the code is not opengl 4.1 compat
-    size_t bind = m_CurrentBinding++;
-
-    size_t stride = 0;
-
-    for (size_t attrib_s : sizes) {
-        size_t attrib = m_CurrentAttribute++;
-        glVertexArrayAttribBinding(m_Handle, attrib, bind);
-        glVertexArrayAttribFormat(m_Handle, attrib, attrib_s, GL_FLOAT, false, stride);
-        glEnableVertexArrayAttrib(m_Handle, attrib);
-        stride += attrib_s * sizeof(float);
-    }
-
-    glVertexArrayVertexBuffer(m_Handle, bind, vbo.getHandle(), 0, stride);
-}
-
-void VertexArray::vbo(const VertexBuffer* vbo, std::initializer_list<size_t> sizes) {
-    // Make the array active.
-    glBindVertexArray(m_Handle);
-    // Make the buffer the active array buffer.
-    glBindBuffer(GL_ARRAY_BUFFER, vbo->getHandle());
-
-    size_t bind = m_CurrentBinding++;
-    size_t stride = 0;
-    //add and enable attributes
-    for (size_t attrib_s : sizes) {
-        size_t attrib = m_CurrentAttribute++;
-        //glVertexArrayAttribBinding(m_Handle, attrib, bind);
-        //glVertexArrayAttribFormat(m_Handle, attrib, attrib_s, GL_FLOAT, false, stride);
-
-        glVertexAttribPointer(attrib, attrib_s, GL_FLOAT, GL_FALSE, stride, 0);
-        glEnableVertexAttribArray(attrib);
-        stride += attrib_s * sizeof(float);
-    }
-}
-
-void VertexArray::enableAttribute(size_t i) {
-    glEnableVertexArrayAttrib(m_Handle, i);
-}
-
-void VertexArray::disableAttribute(size_t i) {
-    glDisableVertexArrayAttrib(m_Handle, i);
-}
-
-void VertexArray::bind() const {
-    glBindVertexArray(m_Handle);
-}
-
-uint32_t VertexArray::getHandle() const noexcept {
-    return m_Handle;
-}
-
 /* Function for rendering a Circle or Rectangle */
 void RenderShape(Shape shape,
-                 Shader& s, VertexArray* pVertexArray, VertexBuffer* pVertexBuffer,
+                 Shader& s,
                  const std::array<Align, 2>& align,
                  float x, float y, float w, float h,
                  glm::vec4 color) {
@@ -232,21 +128,35 @@ void RenderShape(Shape shape,
         }}
         // update VBO for them VERTS
         std::cout << "Checkpoint 1.\n";
-        std::vector<float> vertices = {
+        /*std::vector<float> vertices = {
              xpos,     ypos,
              xpos + w, ypos,
              xpos + w, ypos + h,
-             xpos,     ypos + h, };
-        // update content of VBO memory
-        pVertexBuffer->bind();
-        pVertexBuffer->update(vertices);
-        std::cout << "Checkpoint 2.\n";
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+             xpos,     ypos + h, };*/
+        float vertices[6][4] = {
+                {xpos,     ypos, 0.0f, 0.0f },
+                {xpos + w, ypos, 0.0f, 1.0f },
+                {xpos + w, ypos + h, 1.0f, 0.0f },
+                {xpos,     ypos + h, 1.0f, 1.0f }
+        };
+        /*float vertices[6][4] = {
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos,     ypos,       0.0f, 1.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+                { xpos + w, ypos + h,   1.0f, 0.0f }
+        };*/
+        glBindVertexArray(VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         // render quad
         glUniform4f(glGetUniformLocation(s.ID, "uColor"), color.x, color.y, color.z, color.w);
-        pVertexArray->bind();
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        std::cout << "Checkpoint 3.\n";
+        std::cout << "Checkpoint 2.\n";
+        glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         break;
     }
     case Shape::Circle: {
@@ -254,7 +164,6 @@ void RenderShape(Shape shape,
         glUniform2f(glGetUniformLocation(s.ID, "uCenter"), x, y);
         glUniform4f(glGetUniformLocation(s.ID, "uColor"), color.x, color.y, color.z, color.w);
         glUniform1f(glGetUniformLocation(s.ID, "uRadius2"), 100 * 100);
-        glBindVertexArray(pVertexArray->getHandle());
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         break;
     }
