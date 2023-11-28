@@ -13,14 +13,15 @@
 constexpr glm::vec4 rgba8_to_float(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) {
     return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
 }
-glm::vec4 top_rgb       = rgba8_to_float(75, 220, 205, 255);       //teal
-glm::vec4 middle_rgb    = rgba8_to_float(220, 75, 50, 255);        //velvet
-glm::vec4 bottom_rgb    = rgba8_to_float(162, 220, 75, 255);       //limegreen
+
+glm::vec4 white     = rgba8_to_float(255, 255, 255, 255);  //    white
+glm::vec4 grey      = rgba8_to_float(121, 124, 126, 255);  //    grey
+glm::vec4 yellow    = rgba8_to_float(200, 181, 87, 255);   //    yellow
+glm::vec4 green     = rgba8_to_float(106, 171, 100, 255);  //    green
 
 std::map<char, Character> Characters;
 unsigned int VAO, VBO, tempVAO;
 int fbw, fbh;
-bool NRSCNTST = true;
 
 void window_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -78,15 +79,10 @@ int main()
     std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
 
     /* Sets an rgba color to glClear */
-    if (NRSCNTST) {
-        glClearColor(1.0f, 0.65f, 0.15f, 0.9f);
-    }
-    else {
-        glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-    }
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     /* Font loading! */
-    //std::map<char, Character> arial_Characters = fontLoad("fonts/arial.ttf");
+    std::map<char, Character> arial_Characters = fontLoad("fonts/arial.ttf");
     std::map<char, Character> MKDS_Characters = fontLoad("fonts/MKDS.ttf");
     std::map<char, Character> halflife_Characters = fontLoad("fonts/halflife.ttf");
     std::map<char, Character> UbuntuB_Characters = fontLoad("fonts/Ubuntu-Bold.ttf");
@@ -100,10 +96,8 @@ int main()
     /* Projection matrix, Orthographic */
     glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f); // for 1280x720 screen coordinates
 
-
     /* Creating a VBO and VAO for rendering the quads. */
-
-    glGenVertexArrays(1, &VAO); //todo; fix // generate vertex array object and put the handle into the VAO variable
+    glGenVertexArrays(1, &VAO); // generate vertex array object and put the handle into the VAO variable
     glGenBuffers(1, &VBO); // generate buffer object and put the handle into the VBO variable
     glBindVertexArray(VAO); // set the currently bound vertex array to the vertex array object with the handle stored in VAO
     glBindBuffer(GL_ARRAY_BUFFER, VBO); // set the buffer currently bound to the ARRAY_BUFFER target to the buffer object with the handle stored in VBO
@@ -136,9 +130,9 @@ int main()
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         //top 'welcome' bar
-        RenderShape(Shape::Rectangle, shapeShader, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, { 0.0f, 0.0f, 1.0f, 1.0f });
-        RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, top_rgb);
-        //RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, top_rgb);
+        RenderShape(Shape::Rectangle, shapeShader, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, grey);
+        RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, green);
+        RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, yellow);
 
         /*glBegin(GL_TRIANGLES);
         glVertex2f(-0.5f, -0.5f);

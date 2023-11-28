@@ -5,6 +5,7 @@ ZERO_CHECK*
 .idea*
 .vs*
 
+.cmake*
 CMakeFiles*
 CMakeCache*
 cmake-build-debug*

@@ -30,7 +30,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     }
     catch (std::ifstream::failure e)
     {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
     }
     const char* vShaderCode = vertexCode.c_str();
     const char* fShaderCode = fragmentCode.c_str();
@@ -127,34 +127,18 @@ void RenderShape(Shape shape,
             break;
         }}
         // update VBO for them VERTS
-        std::cout << "Checkpoint 1.\n";
-        /*std::vector<float> vertices = {
-             xpos,     ypos,
-             xpos + w, ypos,
-             xpos + w, ypos + h,
-             xpos,     ypos + h, };*/
         float vertices[6][4] = {
                 {xpos,     ypos, 0.0f, 0.0f },
                 {xpos + w, ypos, 0.0f, 1.0f },
                 {xpos + w, ypos + h, 1.0f, 0.0f },
                 {xpos,     ypos + h, 1.0f, 1.0f }
         };
-        /*float vertices[6][4] = {
-                { xpos,     ypos + h,   0.0f, 0.0f },
-                { xpos,     ypos,       0.0f, 1.0f },
-                { xpos + w, ypos,       1.0f, 1.0f },
-
-                { xpos,     ypos + h,   0.0f, 0.0f },
-                { xpos + w, ypos,       1.0f, 1.0f },
-                { xpos + w, ypos + h,   1.0f, 0.0f }
-        };*/
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         // render quad
         glUniform4f(glGetUniformLocation(s.ID, "uColor"), color.x, color.y, color.z, color.w);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        std::cout << "Checkpoint 2.\n";
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         break;

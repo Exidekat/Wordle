@@ -1,3 +1,0 @@
-/Users/exide/cmpe126project/CMakeFiles/cmpe126project.dir
-/Users/exide/cmpe126project/CMakeFiles/edit_cache.dir
-/Users/exide/cmpe126project/CMakeFiles/rebuild_cache.dir
