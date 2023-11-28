@@ -14,11 +14,26 @@ if (WIN32)
     endif()
 
 elseif (APPLE)
-    set(CMAKE_CXX_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11")
+    include_directories(${GLFW_INCLUDE_DIRS})
+
+    include_directories(${GLM_INCLUDE_DIR})
+    include_directories(/usr/local/include)
+    include_directories(./include)
+    find_library(COCOA_LIBRARY Cocoa REQUIRED)
+    find_library(IOKIT_LIBRARY IOKit REQUIRED)
+    find_library(COREVID_LIBRARY CoreVideo REQUIRED)
+    message(${COCOA_LIBRARY})
+    message(${IOKIT_LIBRARY})
+    message(${COREVID_LIBRARY})
+    message("${GLFW_LIBRARIES}")
+    link_directories(/opt/homebrew/Cellar/glfw/3.3.8/lib)
     link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-arm64)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11")
+
 endif ()
 link_directories(${PROJECT_SOURCE_DIR}/Dependencies/freetype/libs)
 link_directories(/Users/exide/anaconda3/lib)
+
 
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glad/include)
 include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/include)
@@ -40,4 +55,4 @@ set(SOURCE_FILES
         src/main.cpp)
 add_definitions(-DGLEW_STATIC)
 add_executable(cmpe126project ${SOURCE_FILES})
-target_link_libraries(cmpe126project freetype glfw3)
+target_link_libraries(cmpe126project freetype ${GLFW_LIBRARIES} glfw glfw3)

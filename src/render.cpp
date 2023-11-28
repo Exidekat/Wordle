@@ -98,13 +98,13 @@ void Shader::setFloat(const std::string& name, float value) const
 }
 
 VertexBuffer::VertexBuffer(const std::vector<float>& data, VertexBuffer::Mode mode) : m_Size(data.size()) {
-    glCreateBuffers(1,&m_Handle);
-    glNamedBufferData(m_Handle, data.size() * sizeof(float), data.data(), static_cast<GLenum>(mode));
+    glGenBuffers(1,&m_Handle);
+    glBufferData(m_Handle, data.size() * sizeof(float), data.data(), static_cast<GLenum>(mode));
 }
 
 VertexBuffer::VertexBuffer(size_t size, VertexBuffer::Mode mode) : m_Size(size) {
-    glCreateBuffers(1,&m_Handle);
-    glNamedBufferData(m_Handle, size * sizeof(float), nullptr, static_cast<GLenum>(mode));
+    glGenBuffers(1,&m_Handle);
+    glBufferData(m_Handle, size * sizeof(float), nullptr, static_cast<GLenum>(mode));
 }
 
 VertexBuffer::~VertexBuffer() {
@@ -120,20 +120,20 @@ uint32_t VertexBuffer::getHandle() const noexcept {
 }
 
 void VertexBuffer::set(const std::vector<float>& data, VertexBuffer::Mode mode) {
-    glNamedBufferData(m_Handle, data.size() * sizeof(float), data.data(), static_cast<GLenum>(mode));
+    glBufferData(m_Handle, data.size() * sizeof(float), data.data(), static_cast<GLenum>(mode));
     m_Size = data.size();
 }
 
 void VertexBuffer::clear(VertexBuffer::Mode mode) {
-    glNamedBufferData(m_Handle, 0, nullptr, static_cast<GLenum>(mode));
+    glBufferData(m_Handle, 0, nullptr, static_cast<GLenum>(mode));
 }
 
 void VertexBuffer::resize(size_t newSize, VertexBuffer::Mode mode) {
-    glNamedBufferData(m_Handle, newSize * sizeof(float), nullptr, static_cast<GLenum>(mode));
+    glBufferData(m_Handle, newSize * sizeof(float), nullptr, static_cast<GLenum>(mode));
 }
 
 void VertexBuffer::update(const std::vector<float>& data) {
-    glNamedBufferSubData(m_Handle, 0, data.size() * sizeof(float), data.data());
+    glBufferSubData(m_Handle, 0, data.size() * sizeof(float), data.data());
 }
 
 size_t VertexBuffer::size() const noexcept {
@@ -141,7 +141,7 @@ size_t VertexBuffer::size() const noexcept {
 }
 
 VertexArray::VertexArray() {
-    glCreateVertexArrays(1, &m_Handle);
+    glGenVertexArrays(1, &m_Handle);
 }
 
 VertexArray::~VertexArray() {
@@ -149,7 +149,7 @@ VertexArray::~VertexArray() {
 }
 
 void VertexArray::vbo(const VertexBuffer& vbo, std::initializer_list<size_t> sizes) {
-
+    // todo; figure out if this should ever be used. note: the code is not opengl 4.1 compat
     size_t bind = m_CurrentBinding++;
 
     size_t stride = 0;
@@ -166,20 +166,23 @@ void VertexArray::vbo(const VertexBuffer& vbo, std::initializer_list<size_t> siz
 }
 
 void VertexArray::vbo(const VertexBuffer* vbo, std::initializer_list<size_t> sizes) {
+    // Make the array active.
+    glBindVertexArray(m_Handle);
+    // Make the buffer the active array buffer.
+    glBindBuffer(GL_ARRAY_BUFFER, vbo->getHandle());
 
     size_t bind = m_CurrentBinding++;
-
     size_t stride = 0;
-
+    //add and enable attributes
     for (size_t attrib_s : sizes) {
         size_t attrib = m_CurrentAttribute++;
-        glVertexArrayAttribBinding(m_Handle, attrib, bind);
-        glVertexArrayAttribFormat(m_Handle, attrib, attrib_s, GL_FLOAT, false, stride);
-        enableAttribute(attrib);
+        //glVertexArrayAttribBinding(m_Handle, attrib, bind);
+        //glVertexArrayAttribFormat(m_Handle, attrib, attrib_s, GL_FLOAT, false, stride);
+
+        glVertexAttribPointer(attrib, attrib_s, GL_FLOAT, GL_FALSE, stride, 0);
+        glEnableVertexAttribArray(attrib);
         stride += attrib_s * sizeof(float);
     }
-
-    glVertexArrayVertexBuffer(m_Handle, bind, vbo->getHandle(), 0, stride);
 }
 
 void VertexArray::enableAttribute(size_t i) {
@@ -228,6 +231,7 @@ void RenderShape(Shape shape,
             break;
         }}
         // update VBO for them VERTS
+        std::cout << "Checkpoint 1.\n";
         std::vector<float> vertices = {
              xpos,     ypos,
              xpos + w, ypos,
@@ -236,11 +240,13 @@ void RenderShape(Shape shape,
         // update content of VBO memory
         pVertexBuffer->bind();
         pVertexBuffer->update(vertices);
+        std::cout << "Checkpoint 2.\n";
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         // render quad
         glUniform4f(glGetUniformLocation(s.ID, "uColor"), color.x, color.y, color.z, color.w);
         pVertexArray->bind();
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        std::cout << "Checkpoint 3.\n";
         break;
     }
     case Shape::Circle: {

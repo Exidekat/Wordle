@@ -1150,6 +1150,30 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "COCOA_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "/Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/Cocoa.framework"
+		},
+		{
+			"name" : "COREVID_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "/Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/CoreVideo.framework"
+		},
+		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Freetype",
 			"properties" : 
 			[
@@ -1224,6 +1248,30 @@
 			],
 			"type" : "FILEPATH",
 			"value" : "/opt/homebrew/lib/libfreetype.dylib"
+		},
+		{
+			"name" : "GLM_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for GLM."
+				}
+			],
+			"type" : "PATH",
+			"value" : "GLM_DIR-NOTFOUND"
+		},
+		{
+			"name" : "IOKIT_LIBRARY",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to a library."
+				}
+			],
+			"type" : "FILEPATH",
+			"value" : "/Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/IOKit.framework"
 		},
 		{
 			"name" : "cmpe126project_BINARY_DIR",

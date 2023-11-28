@@ -45,17 +45,19 @@ int main()
     // START Game setup
     auto playerQueue = new queueType<Player>(20);
 
-    // START OpenGL code
-    GLFWwindow* window;
-
-    /* Initialize the library */
+    /* Initialize glfw */
     if (!glfwInit())
         return -1;
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_MAXIMIZED, false);
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
     /* Create a windowed mode window and its OpenGL context */
+    GLFWwindow* window;
     window = glfwCreateWindow(640, 480, "Hello Wordle!", nullptr, nullptr);
 
     if (!window)
@@ -73,8 +75,7 @@ int main()
         printf("Failed to initialize OpenGL context\n");
         return -1;
     }
-
-    std::cout << glGetString(GL_VERSION) << std::endl;
+    std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
 
     /* Sets an rgba color to glClear */
     if (NRSCNTST) {
@@ -99,8 +100,9 @@ int main()
     /* Projection matrix, Orthographic */
     glm::mat4 projection = glm::ortho(0.0f, 1280.0f, 0.0f, 720.0f); // for 1280x720 screen coordinates
 
-    std::cout << "I get this far!\n";
+
     /* Creating a VBO and VAO for rendering the quads. */
+
     glGenVertexArrays(1, &VAO); //todo; fix // generate vertex array object and put the handle into the VAO variable
     glGenBuffers(1, &VBO); // generate buffer object and put the handle into the VBO variable
     glBindVertexArray(VAO); // set the currently bound vertex array to the vertex array object with the handle stored in VAO
@@ -118,10 +120,12 @@ int main()
             100.0, 400.0
     };
 
+
     VertexBuffer* cvbo = new VertexBuffer(data);    //
     cvbo->bind();                                   //  todo: ask andy how work
     VertexArray* cvao = new VertexArray();          //
     cvao->vbo(cvbo, {2});                           //
+
 
     /* Load glyph shader */
     Shader glyphShader(glyph_vertexShaderPath, glyph_fragmentShaderPath);
@@ -139,9 +143,9 @@ int main()
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         //top 'welcome' bar
-        RenderShape(Shape::Rectangle, shapeShader, cvao, cvbo, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, { 0.0f, 0.0f, 1.0f, 1.0f });
+        //RenderShape(Shape::Rectangle, shapeShader, cvao, cvbo, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, { 0.0f, 0.0f, 1.0f, 1.0f });
         RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, top_rgb);
-        RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, top_rgb);
+        //RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, top_rgb);
 
         /*glBegin(GL_TRIANGLES);
         glVertex2f(-0.5f, -0.5f);

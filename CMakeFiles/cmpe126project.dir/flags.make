@@ -5,7 +5,7 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 C_DEFINES = -DGLEW_STATIC
 
-C_INCLUDES = -I/Users/exide/cmpe126project/Dependencies/glad/include -I/Users/exide/cmpe126project/Dependencies/glfw/include -I/Users/exide/cmpe126project/Dependencies/freetype/include -I/Users/exide/cmpe126project/Dependencies/glm -I/Users/exide/cmpe126project/include
+C_INCLUDES = -I/usr/local/include -I/Users/exide/cmpe126project/./include -I/Users/exide/cmpe126project/Dependencies/glad/include -I/Users/exide/cmpe126project/Dependencies/glfw/include -I/Users/exide/cmpe126project/Dependencies/freetype/include -I/Users/exide/cmpe126project/Dependencies/glm -I/Users/exide/cmpe126project/include
 
 C_FLAGSarm64 = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
 
@@ -13,9 +13,9 @@ C_FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacO
 
 CXX_DEFINES = -DGLEW_STATIC
 
-CXX_INCLUDES = -I/Users/exide/cmpe126project/Dependencies/glad/include -I/Users/exide/cmpe126project/Dependencies/glfw/include -I/Users/exide/cmpe126project/Dependencies/freetype/include -I/Users/exide/cmpe126project/Dependencies/glm -I/Users/exide/cmpe126project/include
+CXX_INCLUDES = -I/usr/local/include -I/Users/exide/cmpe126project/./include -I/Users/exide/cmpe126project/Dependencies/glad/include -I/Users/exide/cmpe126project/Dependencies/glfw/include -I/Users/exide/cmpe126project/Dependencies/freetype/include -I/Users/exide/cmpe126project/Dependencies/glm -I/Users/exide/cmpe126project/include
 
-CXX_FLAGSarm64 = -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11 -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
+CXX_FLAGSarm64 =  -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11 -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
 
-CXX_FLAGS = -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11 -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
+CXX_FLAGS =  -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11 -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
 
