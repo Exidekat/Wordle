@@ -18,25 +18,27 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 }
 void char_callback(GLFWwindow* window, unsigned int codepoint) {
     // codepoint is unicode value for key
+    std::cout << "ASCII Pressed: "<< char(codepoint) << "\n";
+    charinp = toupper(codepoint);
     switch(gameState) {
         case(Menu):
         case(Gameover):
-
+            if (charinp == 'W' || charinp == 'I')
+                gameOption = Play;
+            else if (charinp == 'S' || charinp == 'K')
+                gameOption = Quit;
             break;
         case(Game):
-            charinp = char(codepoint);
-            if ((charinp > 'Z' || charinp < 'A') &&
-                (charinp > 'z' || charinp < 'a') )  // filter out invalid letters
+            if (charinp > 'Z' || charinp < 'A')  // filter out invalid letters
                 return;
-            std::cout << charinp << "\n";
             if (userinp.size() < 5)
-                userinp += toupper(charinp);
+                userinp += charinp;
             break;
     }
 }
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        gameActive = false;
+        gameActive = false; // game can be exited anytime using ESCAPE
     switch(gameState) {
         case(Menu):
         case(Gameover):
@@ -48,6 +50,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 switch(gameOption) {
                     case (Play):
                         gameState = Game;
+                        resetGameBoard();
                         break;
                     case (Quit):
                         gameActive = false;
@@ -57,11 +60,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         case(Game):
             if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp.empty())
                 userinp.pop_back();
+            else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
+                if (userinp.size() < 5) {
+                    errorTime = 2;
+                    break;
+                }
+            }
             break;
     }
 }
 
 void update() {
+    // Any game logic that must update without user input goes here
 
+}
 
+void resetGameBoard() {
+    attempt = 0;
+    for (int i = 0; i < 6; i++) {
+        if (gameBoard[i] != nullptr) {
+            std::cout << "Deleting board row " << i+1 << "...\n";
+            delete[] gameBoard[i];
+        }
+        std::cout << "Building board row " << i+1 << "...\n";
+        gameBoard[i] = new char[5];
+    }
 }

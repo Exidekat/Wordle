@@ -30,10 +30,15 @@ inline Option gameOption = Option::Play;
 inline State gameState = State::Menu;
 inline std::string userinp = "";
 inline char charinp;
+inline char** gameBoard;
+inline int attempt;
+inline std::string guess;
+inline int errorTime = 0; // used to print the x for 2 seconds
 
 void window_size_callback(GLFWwindow* window, int width, int height);
 void char_callback(GLFWwindow* window, unsigned int codepoint);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void update();
+void resetGameBoard();
 
 #endif

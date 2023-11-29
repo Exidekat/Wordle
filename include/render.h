@@ -7,7 +7,7 @@
 #include <array>
 
 //fontisms
-#include "ft2build.h"
+#include <ft2build.h>
 #include FT_FREETYPE_H
 
 //glisms
@@ -27,6 +27,7 @@ const glm::vec4 white     = rgba8_to_float(255, 255, 255, 255);  //    white
 const glm::vec4 grey      = rgba8_to_float(121, 124, 126, 255);  //    grey
 const glm::vec4 yellow    = rgba8_to_float(200, 181, 87, 255);   //    yellow
 const glm::vec4 green     = rgba8_to_float(106, 171, 100, 255);  //    green
+const glm::vec4 red       = rgba8_to_float(175, 75, 75, 255);  //    red
 
 enum class Align {
     Left = 0, 

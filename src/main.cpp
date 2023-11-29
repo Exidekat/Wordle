@@ -77,6 +77,8 @@ int main() {
     /* Loop until the user closes the window */
     double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;
     int frames = 0, updates = 0;
+    std::cout << "Building board...\n";
+    gameBoard = new char*[6];
     glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
     glfwSetCharCallback	(window, char_callback);               // Calls on user char input
     glfwSetKeyCallback	(window, key_callback);                // Calls on other user input
@@ -93,11 +95,10 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         switch(gameState) {     //cheatsheet notes: 1280x720 min res
-            case(Menu):  //MKDS max 40 characters at 1.0f scale
+            case(Menu):         //MKDS max 40 characters at 1.0f scale
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
                 RenderText(MKDS_Characters, glyphShader, "Created by Haydon Behl and Neal Chandra", {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, green);
-
 
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 320.0f, 440.0f, 120.f, grey);
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 100.0f, 440.0f, 120.f, grey);
@@ -121,6 +122,11 @@ int main() {
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
                 RenderText(MKDS_Characters, glyphShader, userinp, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, yellow);
+                if (userinp.size() == 5)
+                    RenderText(MKDS_Characters, glyphShader, "ENTER?", {Align::Right, Align::Top}, 1080.0f, 650.0f, 1.0f, yellow);
+                if (errorTime > 0)
+                    RenderText(MKDS_Characters, glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f, red);
+
                 break;
             case(Gameover):
                 break;
@@ -132,11 +138,21 @@ int main() {
         frames++; //fully rendered frame
         if (glfwGetTime() - timer > 1.0) {
             timer++;
+            errorTime--;
             std::cout << "FPS: " << frames << "\tUpdates/sec: " << updates << std::endl;
             updates = 0, frames = 0;
         }
     }
 
+    // memory management
     glfwTerminate();
+    for (int i = 0; i < 6; i++) {
+        if (gameBoard[i] != nullptr) {
+            std::cout << "Deleting board row " << i+1 << "...\n";
+            delete[] gameBoard[i];
+        }
+    }
+    std::cout << "Deleting board...\n";
+    delete[] gameBoard;
     return 0;
 }
