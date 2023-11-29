@@ -1,16 +1,16 @@
 #include "wordle.h"
 
 void getWords(std::vector<std::string> &v, std::string path) {
-	std::ifstream file(path);
-	std::string sa;
-	if(file.is_open()){
-		while(getline(file, sa)) {
+    std::ifstream file(path);
+    std::string sa;
+    if (file.is_open()) {
+        while (getline(file, sa)) {
             transform(sa.begin(), sa.end(), sa.begin(), ::toupper);
             v.push_back(sa);
             //std::cout << sa << std::endl;
-		}
-	}
-	file.close();
+        }
+    }
+    file.close();
 }
 
 bool checkForRepeats(std::string word, std::string guess, char letter, std::string currentOutput) {

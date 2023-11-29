@@ -18,7 +18,7 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 }
 void char_callback(GLFWwindow* window, unsigned int codepoint) {
     // codepoint is unicode value for key
-    std::cout << "ASCII Pressed: "<< char(codepoint) << "\n";
+    // std::cout << "ASCII Pressed: "<< char(codepoint) << "\n";
     charinp = toupper(codepoint);
     switch(gameState) {
         case(Menu):
@@ -66,7 +66,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                     break;
                 }
                 for (const auto & i : *words) {
-                    std::cout << i << " =?= " << userinp << std::endl;
+                    // std::cout << i << " =?= " << userinp << std::endl;
                     if (userinp == i) {
                         initGuess();
                         break;
@@ -95,9 +95,26 @@ void resetGameBoard() {
             }
         }
     }
+    srandom(timeNow);
+    answer = (*words)[random() % (*words).size()];
+    std::cout << "The answer to this game is: " << answer << "\n";
+
 }
 
 void initGuess() {
     std::cout << "That's a word!\n";
+    std::string hints;
+    hints = gameLogic(answer, userinp);
+    for (int i = 0; i < 5; i++) {
+        gameBoard[attempt][i][0] = userinp[i];
+        gameBoard[attempt][i][1] = hints[i];
+    }
+    std::cout << hints <<"\n";
     userinp = "";
+
+    if (hints == "ggggg") {
+        std::cout << "You win!\n";
+    } else {
+        attempt++;
+    }
 }

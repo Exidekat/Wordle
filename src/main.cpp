@@ -79,7 +79,8 @@ int main() {
 
     std::cout << "Rendering at " << limitFPS << " frames per second.\n";
     /* Loop until the user closes the window */
-    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;
+    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime;
+    timeNow = lastUpdateTime;
     int frames = 0, updates = 0;
     glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
     glfwSetCharCallback	(window, char_callback);               // Calls on user char input
@@ -141,7 +142,7 @@ int main() {
         if (glfwGetTime() - timer > 1.0) {
             timer++;
             errorTime--;
-            std::cout << "FPS: " << frames << "\t\tUpdates/sec: " << updates << std::endl;
+            //std::cout << "FPS: " << frames << "\t\tUpdates/sec: " << updates << std::endl;
             updates = 0, frames = 0;
         }
     }
