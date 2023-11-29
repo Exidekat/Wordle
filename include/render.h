@@ -5,9 +5,13 @@
 #include <cstdlib>
 #include <vector>
 #include <array>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <initializer_list>
 
 //fontisms
-#include <ft2build.h>
+#include "ft2build.h"
 #include FT_FREETYPE_H
 
 //glisms
@@ -15,19 +19,11 @@
 #include "GLFW/glfw3.h"
 #include "gtc/matrix_transform.hpp"
 
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <initializer_list>
-
-constexpr glm::vec4 rgba8_to_float(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) {
-    return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
-}
-const glm::vec4 white     = rgba8_to_float(255, 255, 255, 255);  //    white
-const glm::vec4 grey      = rgba8_to_float(121, 124, 126, 255);  //    grey
-const glm::vec4 yellow    = rgba8_to_float(200, 181, 87, 255);   //    yellow
-const glm::vec4 green     = rgba8_to_float(106, 171, 100, 255);  //    green
-const glm::vec4 red       = rgba8_to_float(175, 75, 75, 255);  //    red
+const glm::vec4 white     = {255/ 255.f, 255/ 255.f, 255/ 255.f, 255/ 255.f};  //    white
+const glm::vec4 grey      = {121/ 255.f, 124/ 255.f, 126/ 255.f, 255/ 255.f};  //    grey
+const glm::vec4 yellow    = {200/ 255.f, 181/ 255.f, 87/ 255.f, 255/ 255.f};   //    yellow
+const glm::vec4 green     = {106/ 255.f, 171/ 255.f, 100/ 255.f, 255/ 255.f};  //    green
+const glm::vec4 red       = {175/ 255.f, 75/ 255.f, 75/ 255.f, 255/ 255.f};  //    red
 
 enum class Align {
     Left = 0, 

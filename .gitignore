@@ -4,16 +4,19 @@ cmpe126project*
 ZERO_CHECK*
 .idea*
 .vs*
-
 .cmake*
-CMakeFiles*
 CMakeCache*
+CMakeFiles*
+Makefile
+cmake_install.cmake
 cmake-build-debug*
 Debug*
 Testing*
 out*
 x64*
+bin*
 
-cmake_install.cmake
-CMAKE
-Makefile
+Dependencies*
+extern*
+
+

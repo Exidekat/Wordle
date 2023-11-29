@@ -2,6 +2,7 @@
 #define H_Wordle
 
 #include <iostream>
+#include <algorithm>
 #include <random>
 #include <cmath>
 #include <string>
@@ -16,7 +17,7 @@
 #include "gtc/type_ptr.hpp"
 #include "stackType.h"
 #include "queueType.h"
-#include "Player.h"
+#include "player.h"
 #include "render.h"
 
 enum State {

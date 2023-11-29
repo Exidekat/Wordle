@@ -3,45 +3,42 @@ project(cmpe126project)
 
 set(CMAKE_CXX_STANDARD 17)
 
-if (WIN32)
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang" )
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-mingw-w64)
-        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-x86_64)
-    else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-        link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-vc2022)
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+    # Update submodules as needed
+    option(GIT_SUBMODULE "Check submodules during build" ON)
+    if(GIT_SUBMODULE)
+        message(STATUS "Submodule updates")
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                RESULT_VARIABLE GIT_SUBMOD_RESULT)
+        if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+            message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules.")
+        endif()
     endif()
+else()
+    message(FATAL_ERROR "Git submodules were not downloaded! GIT_SUBMODULE was turned off or failed.")
+endif()
 
-elseif (APPLE)
-    link_directories(/opt/homebrew/Cellar/glfw/3.3.8/lib)
-    link_directories(/opt/homebrew/Cellar/libpng/1.6.40/lib)
-    link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-arm64)
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++17")
+execute_process(COMMAND cmake -B ${PROJECT_SOURCE_DIR}/extern/freetype/build -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release ${PROJECT_SOURCE_DIR}/extern/freetype)
+#execute_process(COMMAND sudo cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build --target install) # installs freetype to machine
+execute_process(COMMAND cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build) # does not install to machine
+link_directories(${PROJECT_SOURCE_DIR}/extern/freetype/build) # freetype does not play fair with add_subdirectory.
+add_subdirectory(${PROJECT_SOURCE_DIR}/extern/glm/)
+add_subdirectory(${PROJECT_SOURCE_DIR}/extern/glfw/)
 
-endif ()
-link_directories(${PROJECT_SOURCE_DIR}/Dependencies/freetype/libs)
+find_package(Freetype)
 
-include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glad/include)
-include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/include)
-include_directories(${PROJECT_SOURCE_DIR}/Dependencies/freetype/include)
-include_directories(${PROJECT_SOURCE_DIR}/Dependencies/glm)
+include_directories(${PROJECT_SOURCE_DIR}/extern/freetype/include)
+include_directories(${PROJECT_SOURCE_DIR}/extern/glm/glm)
+include_directories(${PROJECT_SOURCE_DIR}/extern/glfw/include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set(SOURCE_FILES
-        Dependencies/glad/src/gl.c
-
-        include/queueType.h
-        include/stackType.h
-        include/Player.h
-        include/render.h
-        include/wordle.h
-        src/Player.cpp
+add_executable(cmpe126project
+        src/glad/gl.c
+        src/player.cpp
         src/render.cpp
         src/main.cpp
         src/update.cpp
-        src/WordManager.cpp)
-
-add_definitions(-DGLEW_STATIC)
-add_executable(cmpe126project ${SOURCE_FILES})
-target_link_libraries(cmpe126project freetype glfw glfw3)
+        src/wordManager.cpp)
+target_link_libraries(cmpe126project glfw freetype)

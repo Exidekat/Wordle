@@ -2,7 +2,7 @@
 
 int main() {
     // START Game setup
-    auto playerQueue = new queueType<Player>(20);
+    auto playerQueue = new queueType<player>(20);
 
     /* Initialize glfw */
     if (!glfwInit())
@@ -103,7 +103,6 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         switch(gameState) {     //cheatsheet notes: 1280x720 min res
-            case(Gameover):
             case(Menu):         //MKDS max 40 characters at 1.0f scale
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
@@ -116,17 +115,18 @@ int main() {
                     case(Play):
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, white);
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, yellow);
-                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, grey);
                         RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, green);
                         break;
                     case(Quit):
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, yellow);
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, white);
                         RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, green);
-                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, grey);
                         break;
                 }
                 break;
+            case(Gameover):
             case(Game):
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
@@ -159,11 +159,6 @@ int main() {
                         }
                     }
                 }
-
-                for (int i = 0; i < attempt; i++) {
-
-                }
-
                 break;
         }
         /* Swap front and back buffers */
