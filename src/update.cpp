@@ -108,12 +108,11 @@ void resetGameBoard() {
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0,(*answers).size()-1);
     answer = (*answers)[dist(rng)];
-    std::cout << "The answer to this game is: " << answer << "\n";
-
+    //std::cout << "The answer to this game is: " << answer << "\n";
 }
 
 void initGuess() {
-    std::cout << "That's a word!\n";
+    //std::cout << "That's a word!\n";
     std::string hints;
     hints = gameLogic(answer, userinp);
     for (int i = 0; i < 5; i++) {
