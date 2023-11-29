@@ -40,14 +40,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         gameActive = false; // game can be exited anytime using ESCAPE
     switch(gameState) {
-        case(Menu):
-        case(Gameover):
-            if (key == GLFW_KEY_UP  && action == GLFW_PRESS)
+        case (Menu):
+        case (Gameover):
+            if (key == GLFW_KEY_UP && action == GLFW_PRESS)
                 gameOption = Play;
             else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
                 gameOption = Quit;
             else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS)
-                switch(gameOption) {
+                switch (gameOption) {
                     case (Play):
                         gameState = Game;
                         resetGameBoard();
@@ -57,10 +57,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                         break;
                 }
             break;
-        case(Game):
-            if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp.empty())
+        case (Game):
+            if (action == GLFW_PRESS && userinp == "You win!") {
+                gameState = Menu;
+                userinp = "";
+            } else if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp.empty()) {
                 userinp.pop_back();
-            else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
+            } else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
                 if (userinp.size() < 5) {
                     errorTime = 2;
                     break;
@@ -82,21 +85,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void update() {
     // Any game logic that must update without user input goes here
-
+    if (attempt > 5 && userinp != "You win!" && errorTime < 0) {
+        std::cout << "Better luck next time!\n";
+        errorTime = 2;
+    } else if (attempt > 5 && userinp != "You win!" && errorTime == 0) {
+        gameState = Gameover;
+        attempt = 0;
+    }
 }
 
 void resetGameBoard() {
     attempt = 0;
     std::cout << "Resetting board...\n";
-    for (int i = 0; i < gameBoard.size(); i++) {
-        for (int j = 0; j < gameBoard[i].size(); j++) {
-            for (int k = 0; k < gameBoard[i][j].size(); k++) {
-                gameBoard[i][j][k] = ' ';
+    for (auto & i : gameBoard) {
+        for (auto & j : i) {
+            for (char & k : j) {
+                k = ' ';
             }
         }
     }
-    srandom(timeNow);
-    answer = (*words)[random() % (*words).size()];
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0,(*words).size()-1);
+    answer = (*words)[dist(rng)];
     std::cout << "The answer to this game is: " << answer << "\n";
 
 }
@@ -110,11 +121,11 @@ void initGuess() {
         gameBoard[attempt][i][1] = hints[i];
     }
     std::cout << hints <<"\n";
-    userinp = "";
-
+    attempt++;
     if (hints == "ggggg") {
         std::cout << "You win!\n";
+        userinp = "You win!";
     } else {
-        attempt++;
+        userinp = "";
     }
 }

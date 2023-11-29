@@ -85,6 +85,7 @@ int main() {
     glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
     glfwSetCharCallback	(window, char_callback);               // Calls on user char input
     glfwSetKeyCallback	(window, key_callback);                // Calls on other user input
+    std::string sillyTemp = "X"; // this is a silly temp variable
     while (!glfwWindowShouldClose(window) && gameActive) {
         // Render at 30fps
         while ((timeNow - lastUpdateTime) * limitFPS < 1.0) {
@@ -98,6 +99,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         switch(gameState) {     //cheatsheet notes: 1280x720 min res
+            case(Gameover):
             case(Menu):         //MKDS max 40 characters at 1.0f scale
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
@@ -130,8 +132,34 @@ int main() {
                 if (errorTime > 0)
                     RenderText(MKDS_Characters, glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f, red);
 
-                break;
-            case(Gameover):
+                for (int i = 0; i < gameBoard.size(); i++) {
+                    for (int j = 0; j < gameBoard[i].size(); j++) {
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 70.f, 76.f, grey);
+                        if (i < attempt) {
+                            switch (gameBoard[i][j][1]) {
+                                case('.'):
+                                    RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, grey);
+                                    break;
+                                case('y'):
+                                    RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, yellow);
+                                    break;
+                                case('g'):
+                                    RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, green);
+                                    break;
+                            }
+                            sillyTemp.pop_back();
+                            sillyTemp += gameBoard[i][j][0];
+                            RenderText(MKDS_Characters, glyphShader, sillyTemp, {Align::Center, Align::Center}, 644.f + (j-2)*96.f, 74.f + (5-i)*96.f, 1.8f, white);
+                        } else {
+                            RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, white);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < attempt; i++) {
+
+                }
+
                 break;
         }
         /* Swap front and back buffers */

@@ -2,6 +2,7 @@
 #define H_Wordle
 
 #include <iostream>
+#include <random>
 #include <cmath>
 #include <string>
 #include <vector>
