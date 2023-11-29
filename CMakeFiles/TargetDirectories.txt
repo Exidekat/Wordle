@@ -1,3 +1,0 @@
-C:/Users/exide/cmpe126project/CMakeFiles/cmpe126project.dir
-C:/Users/exide/cmpe126project/CMakeFiles/ALL_BUILD.dir
-C:/Users/exide/cmpe126project/CMakeFiles/ZERO_CHECK.dir

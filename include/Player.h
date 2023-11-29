@@ -1,5 +1,5 @@
-#ifndef H_PLAYER
-#define H_PLAYER
+#ifndef H_Player
+#define H_Player
 #include <iostream>
 
 class Player {
@@ -12,4 +12,4 @@ public:
 };
 
 
-#endif //H_PLAYER
+#endif

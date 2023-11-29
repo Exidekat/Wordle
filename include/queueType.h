@@ -1,14 +1,10 @@
-//Header file QueueAsArray
-
-#ifndef H_QueueAsArray
-#define H_QueueAsArray
+#ifndef H_queueType
+#define H_queueType
 
 #include <iostream>
 #include <cassert>
 
 #include "queueADT.h"
-
-using namespace std;
 
 template <class Type>
 class queueType: public queueADT<Type>
@@ -125,7 +121,7 @@ void queueType<Type>::addQueue(const Type& newElement)
         list[queueRear] = newElement;
     }
     else
-        cout << "Cannot add to a full queue." << endl;
+        std::cout << "Cannot add to a full queue." << std::endl;
 } //end addQueue
 
 template <class Type>
@@ -139,7 +135,7 @@ void queueType<Type>::deleteQueue()
         //because the array is circular
     }
     else {
-        cout << "Cannot remove from an empty queue." << endl;
+        std::cout << "Cannot remove from an empty queue." << std::endl;
     }
 } //end deleteQueue
 
@@ -155,7 +151,7 @@ void queueType<Type>::moveNthFront(int n)
             }
             list[queueFront] = val;
         }   else {
-            cout << "Invalid n. There are not enough entries in the queue!\n";
+            std::cout << "Invalid n. There are not enough entries in the queue!\n";
         }
     }
 }
@@ -166,9 +162,9 @@ queueType<Type>::queueType(int queueSize)
 {
     if (queueSize <= 0)
     {
-        cout << "Size of the array to hold the queue must "
-        << "be positive." << endl;
-        cout << "Creating an array of size 100." << endl;
+        std::cout << "Size of the array to hold the queue must "
+        << "be positive." << std::endl;
+        std::cout << "Creating an array of size 100." << std::endl;
         
         maxQueueSize = 100;
     }

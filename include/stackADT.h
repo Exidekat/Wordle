@@ -1,5 +1,5 @@
-#ifndef H_stackADT_H
-#define H_stackADT_H
+#ifndef H_stackADT
+#define H_stackADT
 
 template <class Type>
 class stackADT
@@ -33,4 +33,5 @@ public:
 //Postcondition: The stack is changed and the top
 // element is removed from the stack.
 };
-#endif //H_stackADT_H
+
+#endif
