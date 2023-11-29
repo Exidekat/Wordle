@@ -43,8 +43,13 @@ void char_callback(GLFWwindow* window, unsigned int codepoint);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void update();
 void resetGameBoard();
+void initGuess();
+
+inline std::vector<std::string> *words;
 
 void getWords(std::vector<std::string> &v, std::string path);
 bool checkForRepeats(std::string word, std::string guess, char letter, std::string currentOutput);
+std::string gameLogic(std::string word, std::string guess);
+std::map<std::string, std::vector<std::string>*> getProbs(std::string actual);
 
 #endif

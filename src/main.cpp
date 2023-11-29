@@ -73,6 +73,10 @@ int main() {
     Shader shapeShader("shaders/coloredshape.vs.glsl", "shaders/coloredshape.fs.glsl");
     glProgramUniformMatrix4fv(shapeShader.ID, glGetUniformLocation(shapeShader.ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
 
+    /* Load dictionary */
+    words = new std::vector<std::string>();
+    getWords(*words, "src/words.txt");
+
     std::cout << "Rendering at " << limitFPS << " frames per second.\n";
     /* Loop until the user closes the window */
     double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;
@@ -141,7 +145,10 @@ int main() {
             updates = 0, frames = 0;
         }
     }
+
+    // memory management
     glfwTerminate();
+    delete words;
 
     return 0;
 }

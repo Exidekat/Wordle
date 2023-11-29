@@ -5,7 +5,9 @@ void getWords(std::vector<std::string> &v, std::string path) {
 	std::string sa;
 	if(file.is_open()){
 		while(getline(file, sa)) {
-			v.push_back(sa);
+            transform(sa.begin(), sa.end(), sa.begin(), ::toupper);
+            v.push_back(sa);
+            //std::cout << sa << std::endl;
 		}
 	}
 	file.close();
@@ -38,12 +40,12 @@ std::string gameLogic(std::string word, std::string guess) {
 	return out;
 }
 
-std::map<std::string, std::vector<std::string>*> getProbs(std::vector<std::string> &words, std::string actual) {
+std::map<std::string, std::vector<std::string>*> getProbs(std::string actual) {
 	std::map<std::string, std::vector<std::string>*> wordMap;
-	for (const auto & word : words) {
+	for (const auto & word : *words) {
 		if (word != actual) wordMap[gameLogic(actual, word)] = new std::vector<std::string>();
 	}
-	for (const auto & word : words) {
+	for (const auto & word : *words) {
 		if (word != actual) wordMap[gameLogic(actual, word)]->push_back(word);
 	}
 	return wordMap;
@@ -65,10 +67,10 @@ return out;
 }*/
 
 int oldmain() {
-	std::vector<std::string> *words = new std::vector<std::string>();
-	getWords(*words, "words.txt");
+	//std::vector<std::string> *words = new std::vector<std::string>();
+	//getWords(*words, "words.txt");        // now global
 
-	for(int i = 0; i < 10; i++){
+	for (int i = 0; i < 10; i++){
 		// cout << words[i] << endl;
 	}
 
@@ -81,12 +83,12 @@ int oldmain() {
 	// 4. repeat 2-> 4 until word is found 
 
 	std::string actual = "tests", guess;
-	while(guess != actual){
+	while(guess != actual) {
 		std::cout << "Enter a guess word : " ;
 		std::cin >> guess;
 		std::string out = gameLogic(actual, guess);
 		//need to sort this based on length of vector<string>*
-		std::map<std::string, std::vector<std::string>*> wordMap = getProbs(*words, guess);
+		std::map<std::string, std::vector<std::string>*> wordMap = getProbs(guess);
 
 		double actualinfo;
 		double sum = 0, p;	

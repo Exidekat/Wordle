@@ -65,6 +65,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                     errorTime = 2;
                     break;
                 }
+                for (const auto & i : *words) {
+                    std::cout << i << " =?= " << userinp << std::endl;
+                    if (userinp == i) {
+                        initGuess();
+                        break;
+                    }
+                }
+                if (userinp.size() == 5)
+                    errorTime = 2;
+                break;
             }
             break;
     }
@@ -85,4 +95,9 @@ void resetGameBoard() {
             }
         }
     }
+}
+
+void initGuess() {
+    std::cout << "That's a word!\n";
+    userinp = "";
 }
