@@ -5,20 +5,19 @@
 #include <cstdlib>
 #include <vector>
 #include <array>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <initializer_list>
 
 //fontisms
-#include <ft2build.h>
+#include "ft2build.h"
 #include FT_FREETYPE_H
 
 //glisms
 #include "glad/gl.h"
 #include "GLFW/glfw3.h"
 #include "gtc/matrix_transform.hpp"
-
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <initializer_list>
 
 constexpr glm::vec4 rgba8_to_float(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) {
     return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
