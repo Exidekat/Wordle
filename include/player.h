@@ -2,10 +2,10 @@
 #define H_Player
 #include <iostream>
 
-class Player {
+class player {
 public:
-    Player();
-    Player(std::string name);
+    player();
+    player(std::string name);
     int timesPlayed;
     double score;
     std::string name;

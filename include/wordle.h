@@ -16,7 +16,7 @@
 #include "gtc/type_ptr.hpp"
 #include "stackType.h"
 #include "queueType.h"
-#include "Player.h"
+#include "player.h"
 #include "render.h"
 
 enum State {

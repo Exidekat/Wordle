@@ -2,7 +2,7 @@
 
 int main() {
     // START Game setup
-    auto playerQueue = new queueType<Player>(20);
+    auto playerQueue = new queueType<player>(20);
 
     /* Initialize glfw */
     if (!glfwInit())

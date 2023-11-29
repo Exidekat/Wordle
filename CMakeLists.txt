@@ -31,7 +31,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Dependencies/freetype/)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Dependencies/glm/)
 
-find_package(Freetype REQUIRED)
+find_package(freetype REQUIRED)
 #find_package(glm CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 
@@ -40,12 +40,12 @@ add_executable(cmpe126project
         Dependencies/glad/src/gl.c
         include/queueType.h
         include/stackType.h
-        include/Player.h
+        include/player.h
         include/render.h
         include/wordle.h
-        src/Player.cpp
+        src/player.cpp
         src/render.cpp
         src/main.cpp
         src/update.cpp
-        src/WordManager.cpp)
+        src/wordManager.cpp)
 target_link_libraries(cmpe126project glfw Freetype)

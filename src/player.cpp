@@ -1,11 +1,11 @@
-#include "Player.h"
+#include "player.h"
 
-Player::Player() {
+player::player() {
     this->name = "N/A";
     this->score = 0;
     this->timesPlayed = 0;
 }
-Player::Player(std::string name) {
+player::player(std::string name) {
     this->name = name;
     this->score = 0;
     this->timesPlayed = 0;
