@@ -4,7 +4,6 @@ cmpe126project*
 ZERO_CHECK*
 .idea*
 .vs*
-
 .cmake*
 CMakeCache*
 CMakeFiles*
@@ -15,6 +14,11 @@ Debug*
 Testing*
 out*
 x64*
+bin*
 
+Dependencies*
 extern*
-/extern/
+extern/freetype/*
+extern/glfw/*
+extern/glm/*
+

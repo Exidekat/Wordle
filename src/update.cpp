@@ -2,17 +2,6 @@
 
 void window_size_callback(GLFWwindow* window, int width, int height) {
     /* Keep window size at something kosher */
-    /* if (width <= 1280) {
-        glfwSetWindowSize(window, 1280, 720);
-    }
-    else if (width <= 1920) {
-        glfwSetWindowAspectRatio(window, 1280, 720);
-    }
-    else if (width <= 2560) {
-        glfwSetWindowAspectRatio(window, 2560, 1440);
-    } */
-
-    /* Reset glViewport with new values */
     glfwGetFramebufferSize(window, &fbw, &fbh);
     glViewport(0, 0, fbw, fbh);
 }
@@ -41,7 +30,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         gameActive = false; // game can be exited anytime using ESCAPE
     switch(gameState) {
         case (Menu):
-        case (Gameover):
             if (key == GLFW_KEY_UP && action == GLFW_PRESS)
                 gameOption = Play;
             else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
@@ -61,6 +49,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             if (action == GLFW_PRESS && userinp == "You win!") {
                 gameState = Menu;
                 userinp = "";
+                attempt = 0;
             } else if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp.empty()) {
                 userinp.pop_back();
             } else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
@@ -80,17 +69,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 break;
             }
             break;
+        case (Gameover):
+            if (action == GLFW_PRESS) {
+                gameState = Menu;
+                userinp = "";
+                attempt = 0;
+            }
+            break;
     }
 }
 
 void update() {
     // Any game logic that must update without user input goes here
-    if (attempt > 5 && userinp != "You win!" && errorTime < 0) {
-        std::cout << "Better luck next time!\n";
-        errorTime = 2;
-    } else if (attempt > 5 && userinp != "You win!" && errorTime == 0) {
+    if (attempt > 5 && userinp != "You win!") {
+        userinp = "The word was " + answer;
+        errorTime = 1;
         gameState = Gameover;
-        attempt = 0;
     }
 }
 

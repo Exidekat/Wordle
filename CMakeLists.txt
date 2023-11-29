@@ -6,15 +6,15 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     # Find and add any missing submodules
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/freetype")
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/freetype/build")
         message(STATUS "Freetype submodule first time init.")
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule add --force https://github.com/freetype/freetype.git extern/freetype)
     endif()
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/glm")
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/glm/glm")
         message(STATUS "Glm submodule first time init.")
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule add --force https://github.com/g-truc/glm.git extern/glm)
     endif()
-    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/glfw")
+    if(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/glfw/include")
         message(STATUS "Glfw submodule first time init.")
         execute_process(COMMAND ${GIT_EXECUTABLE} submodule add --force https://github.com/glfw/glfw.git extern/glfw)
     endif()
@@ -35,14 +35,14 @@ else()
 endif()
 
 execute_process(COMMAND cmake -B ${PROJECT_SOURCE_DIR}/extern/freetype/build -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release ${PROJECT_SOURCE_DIR}/extern/freetype)
-execute_process(COMMAND cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build --target install) # installs to machine if unix
+execute_process(COMMAND sudo cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build --target install) # installs to machine
 
 link_directories(${PROJECT_SOURCE_DIR}/extern/freetype/build) # freetype does not play fair with add_subdirectory.
 add_subdirectory(${PROJECT_SOURCE_DIR}/extern/glm/)
 add_subdirectory(${PROJECT_SOURCE_DIR}/extern/glfw/)
 
-find_package(Freetype REQUIRED)
-find_package(glfw3 REQUIRED)
+find_package(Freetype)
+#find_package(glfw3)
 
 include_directories(${PROJECT_SOURCE_DIR}/extern/freetype/include)
 include_directories(${PROJECT_SOURCE_DIR}/extern/glm/glm)
@@ -56,4 +56,4 @@ add_executable(cmpe126project
         src/main.cpp
         src/update.cpp
         src/wordManager.cpp)
-target_link_libraries(cmpe126project freetype glfw)
+target_link_libraries(cmpe126project glfw freetype)

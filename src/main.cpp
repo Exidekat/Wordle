@@ -103,7 +103,6 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         switch(gameState) {     //cheatsheet notes: 1280x720 min res
-            case(Gameover):
             case(Menu):         //MKDS max 40 characters at 1.0f scale
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
@@ -127,6 +126,7 @@ int main() {
                         break;
                 }
                 break;
+            case(Gameover):
             case(Game):
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
@@ -159,11 +159,6 @@ int main() {
                         }
                     }
                 }
-
-                for (int i = 0; i < attempt; i++) {
-
-                }
-
                 break;
         }
         /* Swap front and back buffers */
