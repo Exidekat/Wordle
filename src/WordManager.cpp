@@ -1,14 +1,8 @@
-#include <cmath>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <map>
-using namespace std;
+#include "wordle.h"
 
-void getWords(vector<string> &v, string path){
-	ifstream file(path);
-	string sa;
+void getWords(std::vector<std::string> &v, std::string path) {
+	std::ifstream file(path);
+	std::string sa;
 	if(file.is_open()){
 		while(getline(file, sa)) {
 			v.push_back(sa);
@@ -17,7 +11,7 @@ void getWords(vector<string> &v, string path){
 	file.close();
 }
 
-bool checkForRepeats(string word, string guess, char letter, string currentoutput) {
+bool checkForRepeats(std::string word, std::string guess, char letter, std::string currentOutput) {
 	int count = 0;
 	for(int i = 0; i < 5; i++) {
 		if(word[i] == letter) {
@@ -25,34 +19,34 @@ bool checkForRepeats(string word, string guess, char letter, string currentoutpu
 		}
 	}
 	for(int i = 0; i < 5; i++) {
-		if((currentoutput[i] == 'g' || currentoutput[i] == 'y') && guess[i] == letter) {
+		if((currentOutput[i] == 'g' || currentOutput[i] == 'y') && guess[i] == letter) {
 			count--;
 		}
 	}
 	return count > 0;
 }
 
-string gameLogic(string word, string guess) {
-	string out = "";
-	for(int i = 0; i < 5; i++) {
-		if(word[i] == guess[i]) out += "g";
+std::string gameLogic(std::string word, std::string guess) {
+	std::string out = "";
+	for (int i = 0; i < 5; i++) {
+		if (word[i] == guess[i]) out += "g";
 		else out += ".";
 	}
-	for(int i = 0; i < 5; i++) {
-		if(out[i] != 'g'&& checkForRepeats(word, guess, guess[i], out)) out[i] = 'y';
+	for (int i = 0; i < 5; i++) {
+		if (out[i] != 'g' && checkForRepeats(word, guess, guess[i], out)) out[i] = 'y';
 	}
 	return out;
 }
 
-map<string, vector<string>*> getProbs(vector<string> &words, string actual) {
-	map<string, vector<string>*> map;
-	for(int i = 0; i < words.size(); i++) {
-		if(words[i] != actual) map[gameLogic(actual, words[i])] = new vector<string>();
+std::map<std::string, std::vector<std::string>*> getProbs(std::vector<std::string> &words, std::string actual) {
+	std::map<std::string, std::vector<std::string>*> wordMap;
+	for (const auto & word : words) {
+		if (word != actual) wordMap[gameLogic(actual, word)] = new std::vector<std::string>();
 	}
-	for(int i = 0; i < words.size(); i++) {
-		if(words[i] != actual) map[gameLogic(actual, words[i])]->push_back(words[i]);
+	for (const auto & word : words) {
+		if (word != actual) wordMap[gameLogic(actual, word)]->push_back(word);
 	}
-	return map;
+	return wordMap;
 }
 
 /*map<string, double> getSortedMap(map<string, double> probs){
@@ -70,8 +64,8 @@ map<string, vector<string>*> getProbs(vector<string> &words, string actual) {
 return out;
 }*/
 
-int main() {
-	vector<string> *words = new vector<string>();
+int oldmain() {
+	std::vector<std::string> *words = new std::vector<std::string>();
 	getWords(*words, "words.txt");
 
 	for(int i = 0; i < 10; i++){
@@ -86,32 +80,32 @@ int main() {
 	// 	also save words that are in the 5%ile and 95%ile of guesses to make the tree
 	// 4. repeat 2-> 4 until word is found 
 
-	string actual = "tests", guess;
+	std::string actual = "tests", guess;
 	while(guess != actual){
-		cout << "Enter a guess word : " ; 
-		cin >> guess;
-		string out = gameLogic(actual, guess);
+		std::cout << "Enter a guess word : " ;
+		std::cin >> guess;
+		std::string out = gameLogic(actual, guess);
 		//need to sort this based on length of vector<string>*
-		map<string, vector<string>*> map = getProbs(*words, guess); 
+		std::map<std::string, std::vector<std::string>*> wordMap = getProbs(*words, guess);
 
 		double actualinfo;
 		double sum = 0, p;	
-		for(auto i : map){
+		for (const auto& i : wordMap) {
 			p = i.second->size() / static_cast<double>(words->size());
 			sum += p* log2(1/p);
-			if(out == i.first){
+			if (out == i.first){
 				actualinfo = p*log2(1/p);
 			}
-			cout << i.first << "\t";	
-			for(const auto& element: *i.second) cout << element << " ";
-			cout << endl;
+			std::cout << i.first << "\t";
+			for (const auto& element : *i.second) std::cout << element << " ";
+			std::cout << std::endl;
 		}
-		cout << endl << endl << "expected: " << sum << " actual: "<< actualinfo <<  endl;
+		std::cout << std::endl << std::endl << "expected: " << sum << " actual: "<< actualinfo <<  std::endl;
 		//cout << gameLogic("tests", actual) << endl;	
-		vector<string>* subset = (map[out]);
+		std::vector<std::string>* subset = (wordMap[out]);
 		words = subset;
-		for(const auto& element: *subset) cout << element << " ";
-		cout << endl << subset->size() << endl;	
+		for (const auto& element: *subset) std::cout << element << " ";
+		std::cout << std::endl << subset->size() << std::endl;
 	}
 	return 0;
 }

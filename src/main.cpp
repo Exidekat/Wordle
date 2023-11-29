@@ -139,7 +139,7 @@ int main() {
         if (glfwGetTime() - timer > 1.0) {
             timer++;
             errorTime--;
-            std::cout << "FPS: " << frames << "\tUpdates/sec: " << updates << std::endl;
+            std::cout << "FPS: " << frames << "\t\tUpdates/sec: " << updates << std::endl;
             updates = 0, frames = 0;
         }
     }

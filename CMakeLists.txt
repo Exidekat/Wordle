@@ -17,7 +17,7 @@ elseif (APPLE)
     link_directories(/opt/homebrew/Cellar/glfw/3.3.8/lib)
     link_directories(/opt/homebrew/Cellar/libpng/1.6.40/lib)
     link_directories(${PROJECT_SOURCE_DIR}/Dependencies/glfw/lib-arm64)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++11")
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo -std=c++17")
 
 endif ()
 link_directories(${PROJECT_SOURCE_DIR}/Dependencies/freetype/libs)
@@ -35,11 +35,13 @@ set(SOURCE_FILES
         include/stackType.h
         include/Player.h
         include/render.h
+        include/wordle.h
         src/Player.cpp
         src/render.cpp
         src/main.cpp
-        include/wordle.h
-        src/update.cpp)
+        src/update.cpp
+        src/WordManager.cpp)
+
 add_definitions(-DGLEW_STATIC)
 add_executable(cmpe126project ${SOURCE_FILES})
 target_link_libraries(cmpe126project freetype glfw glfw3)
