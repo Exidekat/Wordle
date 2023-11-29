@@ -106,8 +106,8 @@ void resetGameBoard() {
     }
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist(0,(*words).size()-1);
-    answer = (*words)[dist(rng)];
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0,(*answers).size()-1);
+    answer = (*answers)[dist(rng)];
     std::cout << "The answer to this game is: " << answer << "\n";
 
 }

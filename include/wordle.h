@@ -49,6 +49,7 @@ void resetGameBoard();
 void initGuess();
 
 inline std::vector<std::string> *words;
+inline std::vector<std::string> *answers;
 
 void getWords(std::vector<std::string> &v, std::string path);
 bool checkForRepeats(std::string word, std::string guess, char letter, std::string currentOutput);

@@ -73,21 +73,25 @@ int main() {
     Shader shapeShader("shaders/coloredshape.vs.glsl", "shaders/coloredshape.fs.glsl");
     glProgramUniformMatrix4fv(shapeShader.ID, glGetUniformLocation(shapeShader.ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    /* Load dictionary */
+    /* Load word banks */
     words = new std::vector<std::string>();
     getWords(*words, "src/words.txt");
+    answers = new std::vector<std::string>();
+    getWords(*answers, "src/answers.txt");
 
-    std::cout << "Rendering at " << limitFPS << " frames per second.\n";
-    /* Loop until the user closes the window */
-    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime;
-    timeNow = lastUpdateTime;
-    int frames = 0, updates = 0;
+    /* Set callbacks */
     glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
     glfwSetCharCallback	(window, char_callback);               // Calls on user char input
     glfwSetKeyCallback	(window, key_callback);                // Calls on other user input
+
+    /* Loop until the user closes the window */
+    std::cout << "Rendering at " << limitFPS << " frames per second.\n";
+    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime;
+    int frames = 0, updates = 0;
+    timeNow = lastUpdateTime;
     std::string sillyTemp = "X"; // this is a silly temp variable
     while (!glfwWindowShouldClose(window) && gameActive) {
-        // Render at 30fps
+        // Render capped at 60fps
         while ((timeNow - lastUpdateTime) * limitFPS < 1.0) {
             update();   // - Update function
             updates++;
