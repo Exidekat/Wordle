@@ -13,9 +13,13 @@
 #include "Player.h"
 #include "render.h"
 
+static double limitFPS = 60.0;
 inline std::string userinp = "";
+inline char charinp;
 
-
-void window_size_callback();
+void window_size_callback(GLFWwindow* window, int width, int height);
+void char_callback(GLFWwindow* window, unsigned int codepoint);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void update();
 
 #endif

@@ -1,25 +1,6 @@
 #include "wordle.h"
 
-void window_size_callback(GLFWwindow* window, int width, int height)
-{
-    /* Keep window size at something kosher */
-    /* if (width <= 1280) {
-        glfwSetWindowSize(window, 1280, 720);
-    }
-    else if (width <= 1920) {
-        glfwSetWindowAspectRatio(window, 1280, 720);
-    }
-    else if (width <= 2560) {
-        glfwSetWindowAspectRatio(window, 2560, 1440);
-    } */
-
-    /* Reset glViewport with new values */
-    glfwGetFramebufferSize(window, &fbw, &fbh);
-    glViewport(0, 0, fbw, fbh);
-}
-
-int main()
-{
+int main() {
     // START Game setup
     auto playerQueue = new queueType<Player>(20);
 
@@ -92,24 +73,39 @@ int main()
     Shader shapeShader("shaders/coloredshape.vs.glsl", "shaders/coloredshape.fs.glsl");
     glProgramUniformMatrix4fv(shapeShader.ID, glGetUniformLocation(shapeShader.ID, "uProjection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-
+    std::cout << "Rendering at " << limitFPS << " frames per second.\n";
     /* Loop until the user closes the window */
+    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;    //cheatsheet notes: 1280x720 min res
+    int frames = 0, updates = 0;                                                                //MKDS max 40 characters at 1.0f scale
+    glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
+    glfwSetCharCallback	(window, char_callback);               // Calls on user char input
+    glfwSetKeyCallback	(window, key_callback);                // Calls on other user input
     while (!glfwWindowShouldClose(window)) {
-        glfwSetWindowSizeCallback(window, window_size_callback); //Check for window resize
+        // Render at 30fps
+        while ((timeNow - lastUpdateTime) * limitFPS < 1.0) {
+            update();   // - Update function
+            updates++;
+            timeNow = glfwGetTime();
+        }
+        lastUpdateTime = glfwGetTime();
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-        //top 'welcome' bar
+
         RenderShape(Shape::Rectangle, shapeShader, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, grey);
         RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, green);
-        RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, yellow);
-
-
+        RenderText(MKDS_Characters, glyphShader, userinp, { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, yellow);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
         /* Poll for and process events */
         glfwPollEvents();
+        frames++; //fully rendered frame
+        if (glfwGetTime() - timer > 1.0) {
+            timer++;
+            std::cout << "FPS: " << frames << " Updates/sec: " << updates << std::endl;
+            updates = 0, frames = 0;
+        }
     }
 
     glfwTerminate();
