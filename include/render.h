@@ -1,4 +1,3 @@
-/* render.h */
 #pragma once
 
 #include <iostream>
@@ -20,6 +19,14 @@
 #include <fstream>
 #include <sstream>
 #include <initializer_list>
+
+constexpr glm::vec4 rgba8_to_float(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) {
+    return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
+}
+const glm::vec4 white     = rgba8_to_float(255, 255, 255, 255);  //    white
+const glm::vec4 grey      = rgba8_to_float(121, 124, 126, 255);  //    grey
+const glm::vec4 yellow    = rgba8_to_float(200, 181, 87, 255);   //    yellow
+const glm::vec4 green     = rgba8_to_float(106, 171, 100, 255);  //    green
 
 enum class Align {
     Left = 0, 
@@ -79,6 +86,6 @@ std::map<char, Character> fontLoad(const char* fontPath);
 inline const char* glyph_vertexShaderPath = "shaders/glyph.vs.glsl";
 inline const char* glyph_fragmentShaderPath = "shaders/glyph.fs.glsl";
 
-extern std::map<char, Character> Characters;
-extern unsigned int VAO, VBO;
-extern int fbw, fbh;
+inline std::map<char, Character> Characters;
+inline unsigned int VAO, VBO;
+inline int fbw, fbh;

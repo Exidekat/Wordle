@@ -1,11 +1,10 @@
-#ifndef CMPE126Lab10_MYSTACK_H
-#define CMPE126Lab10_MYSTACK_H
+#ifndef H_stackType
+#define H_stackType
 
 #include <iostream>
 #include <cassert>
 #include "stackADT.h"
 
-using namespace std;
 template <class Type>
 class stackType: public stackADT<Type>
 {
@@ -89,7 +88,7 @@ void stackType<Type>::push(const Type& newItem)
         stackTop++; //increment stackTop
     }
     else
-        cout << "Cannot add to a full stack." << endl;
+        std::cout << "Cannot add to a full stack." << std::endl;
 }//end push
 template <class Type>
 Type stackType<Type>::top() const
@@ -106,16 +105,16 @@ void stackType<Type>::pop()
     if (!isEmptyStack())
         stackTop--; //decrement stackTop
     else
-        cout << "Cannot remove from an empty stack." << endl;
+        std::cout << "Cannot remove from an empty stack." << std::endl;
 }//end pop
 template <class Type>
 stackType<Type>::stackType(int stackSize)
 {
     if (stackSize <= 0)
     {
-        cout << "Size of the array to hold the stack must "
-             << "be positive." << endl;
-        cout << "Creating an array of size 100." << endl;
+        std::cout << "Size of the array to hold the stack must "
+             << "be positive." << std::endl;
+        std::cout << "Creating an array of size 100." << std::endl;
         maxStackSize = 100;
     }
     else
@@ -175,4 +174,4 @@ void stackType<Type>::reverseStack
     }
 } //end copyStack
 
-#endif //CMPE126Lab10_MYSTACK_H
+#endif

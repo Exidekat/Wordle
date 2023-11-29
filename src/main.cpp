@@ -1,27 +1,4 @@
-#include <iostream>
-#include "glad/gl.h"
-#include "GLFW/glfw3.h"
-#include "vec2.hpp"
-#include "gtc/matrix_transform.hpp"
-#include "gtc/type_ptr.hpp"
-
-#include "stackType.h"
-#include "queueType.h"
-#include "Player.h"
-#include "render.h"
-
-constexpr glm::vec4 rgba8_to_float(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) {
-    return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
-}
-
-glm::vec4 white     = rgba8_to_float(255, 255, 255, 255);  //    white
-glm::vec4 grey      = rgba8_to_float(121, 124, 126, 255);  //    grey
-glm::vec4 yellow    = rgba8_to_float(200, 181, 87, 255);   //    yellow
-glm::vec4 green     = rgba8_to_float(106, 171, 100, 255);  //    green
-
-std::map<char, Character> Characters;
-unsigned int VAO, VBO, tempVAO;
-int fbw, fbh;
+#include "wordle.h"
 
 void window_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -107,13 +84,6 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    std::vector<float> data = {
-            100.0, 100.0,
-            400.0, 100.0,
-            400.0, 400.0,
-            100.0, 400.0
-    };
-
     /* Load glyph shader */
     Shader glyphShader(glyph_vertexShaderPath, glyph_fragmentShaderPath);
     glProgramUniformMatrix4fv(glyphShader.ID, glGetUniformLocation(glyphShader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
@@ -134,15 +104,10 @@ int main()
         RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, green);
         RenderText(MKDS_Characters, glyphShader, "URMOM", { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, yellow);
 
-        /*glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.0f, 0.5f);
-        glVertex2f(0.5f, -0.5f);
-        glEnd();*/
+
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
         /* Poll for and process events */
         glfwPollEvents();
     }

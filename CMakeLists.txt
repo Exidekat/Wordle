@@ -35,11 +35,11 @@ set(SOURCE_FILES
         include/stackType.h
         include/Player.h
         include/render.h
-        include/shape.h
         src/Player.cpp
         src/render.cpp
-        src/shape.cpp
-        src/main.cpp)
+        src/main.cpp
+        include/wordle.h
+        src/update.cpp)
 add_definitions(-DGLEW_STATIC)
 add_executable(cmpe126project ${SOURCE_FILES})
 target_link_libraries(cmpe126project freetype glfw glfw3)
