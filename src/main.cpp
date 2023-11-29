@@ -75,12 +75,12 @@ int main() {
 
     std::cout << "Rendering at " << limitFPS << " frames per second.\n";
     /* Loop until the user closes the window */
-    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;    //cheatsheet notes: 1280x720 min res
-    int frames = 0, updates = 0;                                                                //MKDS max 40 characters at 1.0f scale
+    double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;
+    int frames = 0, updates = 0;
     glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
     glfwSetCharCallback	(window, char_callback);               // Calls on user char input
     glfwSetKeyCallback	(window, key_callback);                // Calls on other user input
-    while (!glfwWindowShouldClose(window)) {
+    while (!glfwWindowShouldClose(window) && gameActive) {
         // Render at 30fps
         while ((timeNow - lastUpdateTime) * limitFPS < 1.0) {
             update();   // - Update function
@@ -89,13 +89,42 @@ int main() {
         }
         lastUpdateTime = glfwGetTime();
 
-        /* Render here */
+        /* Rendering here, 3 screens in the state machine for Menu, Game, and Gameover  */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        RenderShape(Shape::Rectangle, shapeShader, { Align::Center, Align::Top }, 640.0f, 720.0f, 880.f, 120.f, grey);
-        RenderText(MKDS_Characters, glyphShader, "WORDLE!", { Align::Center, Align::Top }, 640.0f, 715.0f, 1.0f, green);
-        RenderText(MKDS_Characters, glyphShader, userinp, { Align::Center, Align::Top }, 640.0f, 650.0f, 1.0f, yellow);
+        switch(gameState) {     //cheatsheet notes: 1280x720 min res
+            case(Menu):  //MKDS max 40 characters at 1.0f scale
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f, grey);
+                RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
+                RenderText(MKDS_Characters, glyphShader, "Created by Haydon Behl and Neal Chandra", {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, green);
 
+
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 320.0f, 440.0f, 120.f, grey);
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 100.0f, 440.0f, 120.f, grey);
+
+                switch(gameOption) {
+                    case(Play):
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, white);
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, green);
+                        break;
+                    case(Quit):
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, yellow);
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, white);
+                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, green);
+                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, yellow);
+                        break;
+                }
+                break;
+            case(Game):
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
+                RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
+                RenderText(MKDS_Characters, glyphShader, userinp, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, yellow);
+                break;
+            case(Gameover):
+                break;
+        }
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
         /* Poll for and process events */
@@ -103,7 +132,7 @@ int main() {
         frames++; //fully rendered frame
         if (glfwGetTime() - timer > 1.0) {
             timer++;
-            std::cout << "FPS: " << frames << " Updates/sec: " << updates << std::endl;
+            std::cout << "FPS: " << frames << "\tUpdates/sec: " << updates << std::endl;
             updates = 0, frames = 0;
         }
     }

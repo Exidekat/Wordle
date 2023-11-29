@@ -13,7 +13,21 @@
 #include "Player.h"
 #include "render.h"
 
+enum State {
+    Menu,
+    Game,
+    Gameover,
+};
+enum Option {
+    Play,
+    Quit,
+};
+
+
 static double limitFPS = 60.0;
+inline bool gameActive = true;
+inline Option gameOption = Option::Play;
+inline State gameState = State::Menu;
 inline std::string userinp = "";
 inline char charinp;
 

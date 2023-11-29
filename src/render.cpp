@@ -151,8 +151,8 @@ void RenderShape(Shape shape,
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         break;
     }
-        case Shape::OutlinedCircle:
-            break;
+    case Shape::OutlinedCircle:
+        break;
     }
 }
 
