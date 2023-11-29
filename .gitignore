@@ -7,6 +7,9 @@ ZERO_CHECK*
 
 .cmake*
 CMakeCache*
+CMakeFiles*
+Makefile
+cmake_install.cmake
 cmake-build-debug*
 Debug*
 Testing*

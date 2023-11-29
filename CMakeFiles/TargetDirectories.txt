@@ -1,5 +1,0 @@
-/Users/exide/cmpe126project/CMakeFiles/cmpe126project.dir
-/Users/exide/cmpe126project/CMakeFiles/edit_cache.dir
-/Users/exide/cmpe126project/CMakeFiles/rebuild_cache.dir
-/Users/exide/cmpe126project/Dependencies/glm/CMakeFiles/edit_cache.dir
-/Users/exide/cmpe126project/Dependencies/glm/CMakeFiles/rebuild_cache.dir
