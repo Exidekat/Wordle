@@ -153,54 +153,6 @@ Dependencies/glad/src/gl.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/Dependencies/glad/src/gl.c.s
 .PHONY : Dependencies/glad/src/gl.c.s
 
-src/Player.o: src/Player.cpp.o
-.PHONY : src/Player.o
-
-# target to build an object file
-src/Player.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/Player.cpp.o
-.PHONY : src/Player.cpp.o
-
-src/Player.i: src/Player.cpp.i
-.PHONY : src/Player.i
-
-# target to preprocess a source file
-src/Player.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/Player.cpp.i
-.PHONY : src/Player.cpp.i
-
-src/Player.s: src/Player.cpp.s
-.PHONY : src/Player.s
-
-# target to generate assembly for a file
-src/Player.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/Player.cpp.s
-.PHONY : src/Player.cpp.s
-
-src/WordManager.o: src/WordManager.cpp.o
-.PHONY : src/WordManager.o
-
-# target to build an object file
-src/WordManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/WordManager.cpp.o
-.PHONY : src/WordManager.cpp.o
-
-src/WordManager.i: src/WordManager.cpp.i
-.PHONY : src/WordManager.i
-
-# target to preprocess a source file
-src/WordManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/WordManager.cpp.i
-.PHONY : src/WordManager.cpp.i
-
-src/WordManager.s: src/WordManager.cpp.s
-.PHONY : src/WordManager.s
-
-# target to generate assembly for a file
-src/WordManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/WordManager.cpp.s
-.PHONY : src/WordManager.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -224,6 +176,30 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/player.o: src/player.cpp.o
+.PHONY : src/player.o
+
+# target to build an object file
+src/player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/player.cpp.o
+.PHONY : src/player.cpp.o
+
+src/player.i: src/player.cpp.i
+.PHONY : src/player.i
+
+# target to preprocess a source file
+src/player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/player.cpp.i
+.PHONY : src/player.cpp.i
+
+src/player.s: src/player.cpp.s
+.PHONY : src/player.s
+
+# target to generate assembly for a file
+src/player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/player.cpp.s
+.PHONY : src/player.cpp.s
 
 src/render.o: src/render.cpp.o
 .PHONY : src/render.o
@@ -273,6 +249,30 @@ src/update.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/update.cpp.s
 .PHONY : src/update.cpp.s
 
+src/wordManager.o: src/wordManager.cpp.o
+.PHONY : src/wordManager.o
+
+# target to build an object file
+src/wordManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/wordManager.cpp.o
+.PHONY : src/wordManager.cpp.o
+
+src/wordManager.i: src/wordManager.cpp.i
+.PHONY : src/wordManager.i
+
+# target to preprocess a source file
+src/wordManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/wordManager.cpp.i
+.PHONY : src/wordManager.cpp.i
+
+src/wordManager.s: src/wordManager.cpp.s
+.PHONY : src/wordManager.s
+
+# target to generate assembly for a file
+src/wordManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cmpe126project.dir/build.make CMakeFiles/cmpe126project.dir/src/wordManager.cpp.s
+.PHONY : src/wordManager.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -285,21 +285,21 @@ help:
 	@echo "... Dependencies/glad/src/gl.o"
 	@echo "... Dependencies/glad/src/gl.i"
 	@echo "... Dependencies/glad/src/gl.s"
-	@echo "... src/Player.o"
-	@echo "... src/Player.i"
-	@echo "... src/Player.s"
-	@echo "... src/WordManager.o"
-	@echo "... src/WordManager.i"
-	@echo "... src/WordManager.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/player.o"
+	@echo "... src/player.i"
+	@echo "... src/player.s"
 	@echo "... src/render.o"
 	@echo "... src/render.i"
 	@echo "... src/render.s"
 	@echo "... src/update.o"
 	@echo "... src/update.i"
 	@echo "... src/update.s"
+	@echo "... src/wordManager.o"
+	@echo "... src/wordManager.i"
+	@echo "... src/wordManager.s"
 .PHONY : help
 
 
