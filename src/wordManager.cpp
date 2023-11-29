@@ -51,12 +51,60 @@ std::map<std::string, std::vector<std::string>*> getProbs(std::string actual) {
 	return wordMap;
 }
 
+
+std::map<std::string, std::vector<std::string>*> getProbs(std::string actual, std::string word){
+	std::map<std::string, std::vector<std::string>*> wordMap;
+	for (const auto & word : *words) {
+		if (word != actual) wordMap[gameLogic(actual, word)] = new std::vector<std::string>();
+	}
+	for (const auto & word : *words) {
+		if (word != actual) wordMap[gameLogic(actual, word)]->push_back(word);
+	}
+	return wordMap;
+}
+
+
+double calculateExpectedEntropyOfAWord(std::string word){
+	
+	map<std::string, std::vector<std::string>*> probs = getProbs(word);
+	double sum = 0, p;
+	for (const auto& i : wordMap) {
+		p = i.second->size() / static_cast<double>(words->size());
+		sum += p* log2(1/p);
+		if (out == i.first){
+			actualinfo = p*log2(1/p);
+		}
+	}
+
+	return sum;	
+
+}
+
+
+//need to call this method before each of the user's guesses in order to get the best word to guess (the best word is the one with the highest entropy) 
+map<std::string, double> getEntropyMap(){
+	
+	map<std::string, double> out;
+
+	for(int i = 0; i < words->size(); i++){
+		
+		out[words[i]] = calculateExpectedEntropyOfAWord(words[i]];
+
+	}
+
+
+	return out;
+
+
+}
+
+
 /*map<string, double> getSortedMap(map<string, double> probs){
 
   map<string, double> out;
   vector<double> temp;
   for(auto i: probs){
-    temp.push_back(i.second);
+  temp.push_back(i.second);
   }
 
 //mergesort(temp) based on the probability
@@ -73,6 +121,7 @@ int oldmain() {
 	for (int i = 0; i < 10; i++){
 		// cout << words[i] << endl;
 	}
+	
 
 	//we need to calculate the probability for all words, then we need to calculate p log(1/p) for all the words
 	//whichever value of entropy is highest is the best word. whichever has the entropy at the 25%ile and 75%ile will be used to make the tree
@@ -83,11 +132,13 @@ int oldmain() {
 	// 4. repeat 2-> 4 until word is found 
 
 	std::string actual = "tests", guess;
+
 	while(guess != actual) {
 		std::cout << "Enter a guess word : " ;
 		std::cin >> guess;
 		std::string out = gameLogic(actual, guess);
 		//need to sort this based on length of vector<string>*
+
 		std::map<std::string, std::vector<std::string>*> wordMap = getProbs(guess);
 
 		double actualinfo;
@@ -102,6 +153,10 @@ int oldmain() {
 			for (const auto& element : *i.second) std::cout << element << " ";
 			std::cout << std::endl;
 		}
+
+
+
+
 		std::cout << std::endl << std::endl << "expected: " << sum << " actual: "<< actualinfo <<  std::endl;
 		//cout << gameLogic("tests", actual) << endl;	
 		std::vector<std::string>* subset = (wordMap[out]);
