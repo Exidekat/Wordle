@@ -34,7 +34,7 @@ inline Option gameOption = Option::Play;
 inline State gameState = State::Menu;
 inline std::string userinp = "";
 inline char charinp;
-inline char** gameBoard;
+inline std::vector<std::vector<std::vector<char>>> gameBoard(6, std::vector<std::vector<char>>(5, std::vector<char>(2)));
 inline int attempt;
 inline int errorTime = 0; // used to print the x for 2 seconds
 

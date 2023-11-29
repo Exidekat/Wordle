@@ -77,8 +77,6 @@ int main() {
     /* Loop until the user closes the window */
     double lastUpdateTime = glfwGetTime(), timer = lastUpdateTime, timeNow = lastUpdateTime;
     int frames = 0, updates = 0;
-    std::cout << "Building board...\n";
-    gameBoard = new char*[6];
     glfwSetWindowSizeCallback(window, window_size_callback);   // Calls on window resize
     glfwSetCharCallback	(window, char_callback);               // Calls on user char input
     glfwSetKeyCallback	(window, key_callback);                // Calls on other user input
@@ -143,16 +141,7 @@ int main() {
             updates = 0, frames = 0;
         }
     }
-
-    // memory management
     glfwTerminate();
-    for (int i = 0; i < 6; i++) {
-        if (gameBoard[i] != nullptr) {
-            std::cout << "Deleting board row " << i+1 << "...\n";
-            delete[] gameBoard[i];
-        }
-    }
-    std::cout << "Deleting board...\n";
-    delete[] gameBoard;
+
     return 0;
 }

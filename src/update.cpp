@@ -77,12 +77,12 @@ void update() {
 
 void resetGameBoard() {
     attempt = 0;
-    for (int i = 0; i < 6; i++) {
-        if (gameBoard[i] != nullptr) {
-            std::cout << "Deleting board row " << i+1 << "...\n";
-            delete[] gameBoard[i];
+    std::cout << "Resetting board...\n";
+    for (int i = 0; i < gameBoard.size(); i++) {
+        for (int j = 0; j < gameBoard[i].size(); j++) {
+            for (int k = 0; k < gameBoard[i][j].size(); k++) {
+                gameBoard[i][j][k] = ' ';
+            }
         }
-        std::cout << "Building board row " << i+1 << "...\n";
-        gameBoard[i] = new char[5];
     }
 }
