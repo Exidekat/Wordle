@@ -6,14 +6,9 @@ ZERO_CHECK*
 .vs*
 
 .cmake*
-CMakeFiles*
 CMakeCache*
 cmake-build-debug*
 Debug*
 Testing*
 out*
 x64*
-
-cmake_install.cmake
-CMAKE
-Makefile
