@@ -64,35 +64,17 @@ CMAKE_BINARY_DIR = /Users/exide/cmpe126project
 
 # The main recursive "all" target.
 all: CMakeFiles/cmpe126project.dir/all
-all: Dependencies/freetype/all
 all: Dependencies/glm/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: Dependencies/freetype/preinstall
 preinstall: Dependencies/glm/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/cmpe126project.dir/clean
-clean: Dependencies/freetype/clean
 clean: Dependencies/glm/clean
 .PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory Dependencies/freetype
-
-# Recursive "all" directory target.
-Dependencies/freetype/all:
-.PHONY : Dependencies/freetype/all
-
-# Recursive "preinstall" directory target.
-Dependencies/freetype/preinstall:
-.PHONY : Dependencies/freetype/preinstall
-
-# Recursive "clean" directory target.
-Dependencies/freetype/clean:
-.PHONY : Dependencies/freetype/clean
 
 #=============================================================================
 # Directory level rules for directory Dependencies/glm

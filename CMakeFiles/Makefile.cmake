@@ -11,7 +11,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.27.8/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.8/CMakeSystem.cmake"
   "CMakeLists.txt"
-  "Dependencies/freetype/CMakeLists.txt"
   "Dependencies/glm/CMakeLists.txt"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/CMakeCInformation.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/CMakeCXXInformation.cmake"
@@ -26,9 +25,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Compiler/Clang.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Compiler/GNU.cmake"
-  "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/FindFreetype.cmake"
+  "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/FindGit.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/FindPackageMessage.cmake"
+  "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Findfreetype.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Platform/Apple-AppleClang-C.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake"
   "/opt/homebrew/Cellar/cmake/3.27.8/share/cmake/Modules/Platform/Apple-Clang-C.cmake"
@@ -53,7 +53,6 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "Dependencies/freetype/CMakeFiles/CMakeDirectoryInformation.cmake"
   "Dependencies/glm/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
