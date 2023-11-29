@@ -115,14 +115,14 @@ int main() {
                     case(Play):
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, white);
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, yellow);
-                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, grey);
                         RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, green);
                         break;
                     case(Quit):
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, yellow);
                         RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, white);
                         RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, green);
-                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, grey);
                         break;
                 }
                 break;

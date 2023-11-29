@@ -18,7 +18,5 @@ bin*
 
 Dependencies*
 extern*
-extern/freetype/*
-extern/glfw/*
-extern/glm/*
+
 
