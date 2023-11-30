@@ -15,8 +15,12 @@ Testing*
 out*
 x64*
 bin*
+INSTALL.vcxproj*
 
 Dependencies*
 extern*
+extern/freetype/*
+extern/glm/*
+extern/glfw/*
 
 
