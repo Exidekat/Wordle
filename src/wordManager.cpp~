@@ -88,7 +88,7 @@ map<std::string, double> getEntropyMap(){
 
 	for(int i = 0; i < words->size(); i++){
 		
-		out[words[i]] = calculateExpectedEntropyOfAWord(words[i]);
+		out[words[i]] = calculateExpectedEntropyOfAWord(words[i]];
 
 	}
 
