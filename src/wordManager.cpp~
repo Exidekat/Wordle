@@ -43,10 +43,10 @@ std::string gameLogic(std::string word, std::string guess) {
 std::map<std::string, std::vector<std::string>*> getProbs(std::string actual) {
 	std::map<std::string, std::vector<std::string>*> wordMap;
 	for (const auto & word : *words) {
-		if (word != actual) wordMap[gameLogic(actual, word)] = new std::vector<std::string>();
+		wordMap[gameLogic(actual, word)] = new std::vector<std::string>();
 	}
 	for (const auto & word : *words) {
-		if (word != actual) wordMap[gameLogic(actual, word)]->push_back(word);
+		wordMap[gameLogic(actual, word)]->push_back(word);
 	}
 	return wordMap;
 }
@@ -72,10 +72,18 @@ double calculateExpectedEntropyOfAWord(std::string word){
 	for (const auto& i : wordMap) {
 		p = i.second->size() / static_cast<double>(words->size());
 		sum += p* log2(1/p);
-		if (word == i.first){
-			actualinfo = p*log2(1/p);
+		if (gameLogic(word, answer) == i.first){
+			actualinfo = log2(1/p);
+
+			std::cout << i.first << "\t";
+			std::cout<<std::endl;	
+
+			for (int j = 0; j < i.second->size(); j++) std::cout << i.second->at(j) << " ";
+
+			words = i.second;
 		}
 	}
+	std::cout << word << std::endl;
 	std::cout << "Expected Information to gain: " << sum << std::endl; 
 	std::cout << "Actual Information gained: " << actualinfo << std::endl;
 	return sum;	
@@ -85,16 +93,16 @@ double calculateExpectedEntropyOfAWord(std::string word){
 
 //need to call this method before each of the user's guesses in order to get the best word to guess (the best word is the one with the highest entropy) 
 std::map<std::string, double> getEntropyMap(){
-	
+
 	std::map<std::string, double> out;
 
 	for(int i = 0; i < words->size(); i++){
-		
+
 		out[words->at(i)] = calculateExpectedEntropyOfAWord(words->at(i));
 
 	}
 
-	std::cout<<out << std::endl;
+	//..std::cout<<out << std::endl;
 	return out;
 
 
@@ -123,7 +131,7 @@ int oldmain() {
 	for (int i = 0; i < 10; i++){
 		// cout << words[i] << endl;
 	}
-	
+
 
 	//we need to calculate the probability for all words, then we need to calculate p log(1/p) for all the words
 	//whichever value of entropy is highest is the best word. whichever has the entropy at the 25%ile and 75%ile will be used to make the tree
