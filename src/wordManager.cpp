@@ -51,7 +51,7 @@ std::map<std::string, std::vector<std::string>*> getProbs(std::string actual) {
 	return wordMap;
 }
 
-
+/*
 std::map<std::string, std::vector<std::string>*> getProbs(std::string actual, std::string word){
 	std::map<std::string, std::vector<std::string>*> wordMap;
 	for (const auto & word : *words) {
@@ -62,7 +62,7 @@ std::map<std::string, std::vector<std::string>*> getProbs(std::string actual, st
 	}
 	return wordMap;
 }
-
+*/
 
 double calculateExpectedEntropyOfAWord(std::string word){
 	
@@ -94,7 +94,7 @@ std::map<std::string, double> getEntropyMap(){
 
 	}
 
-	std::cout<<out << endl;
+	//..std::cout<<out << std::endl;
 	return out;
 
 

@@ -56,5 +56,5 @@ void getWords(std::vector<std::string> &v, std::string path);
 bool checkForRepeats(std::string word, std::string guess, char letter, std::string currentOutput);
 std::string gameLogic(std::string word, std::string guess);
 std::map<std::string, std::vector<std::string>*> getProbs(std::string actual);
-std::map<std::string, std::vector<double>> getEntropyMap(std::string word);
+std::map<std::string, std::vector<double>> getEntropyMap();
 #endif
