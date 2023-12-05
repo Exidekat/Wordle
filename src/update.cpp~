@@ -123,7 +123,7 @@ void initGuess() {
 	//std::cout << userinp << std::endl;	
 	//userinp = "";
 		
-	double wordMap = calculateExpectedEntropyOfAWord(userinp);
+	double wordMap = getExpectedEntropyOfAWord(userinp);
 	//std::cout << wordMap[userinp] << std::endl;
     	userinp = "";
 
