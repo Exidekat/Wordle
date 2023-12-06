@@ -33,11 +33,19 @@ enum class Align {
     Top = Right,
 };
 
-enum class Shape {
+enum class ShapeForm {
     Rectangle = 0,
     Circle = 1,
     OutlinedCircle = 2,
+    Glyph = 3
+};
 
+/* Map with char(glyphname) and a struct for conveniently storing glyph data */
+struct Character {
+    unsigned int TextureID;  // ID handle of the glyph texture
+    glm::ivec2   Size;       // Size of glyph
+    glm::ivec2   Bearing;    // Offset from baseline to left/top of glyph
+    unsigned int Advance;    // Offset to advance to next glyph
 };
 
 class Shader
@@ -55,27 +63,29 @@ public:
     void setFloat(const std::string& name, float value) const;
 };
 
+class Shape {
+public:
+    ShapeForm form;
+    glm::vec4 color;
+    Shape(ShapeForm form, glm::vec4 color);
+};
 
-/* Map with char(glyphname) and a struct for conveniently storing glyph data */
-struct Character {
-    unsigned int TextureID;  // ID handle of the glyph texture
-    glm::ivec2   Size;       // Size of glyph
-    glm::ivec2   Bearing;    // Offset from baseline to left/top of glyph
-    unsigned int Advance;    // Offset to advance to next glyph
+class Glyph : public Shape {
+public:
+    std::map<char, Character> fCharacters;
+    Glyph(std::map<char, Character> fCharacters, glm::vec4 color);
 };
 
 void RenderShape(Shape shape,
                  Shader& s,
                  const std::array<Align, 2>& align,
-                 float x, float y, float w, float h,
-                 glm::vec4 color);
+                 float x, float y, float w, float h);
 
-void RenderText(std::map<char, Character> fCharacters,
+void RenderText(Glyph glyph,
                 Shader& s,
                 const std::string& text,
                 const std::array<Align, 2>& align,
-                float x, float y, float scale,
-                glm::vec4 color);
+                float x, float y, float scale);
 
 std::map<char, Character> fontLoad(const char* fontPath);
 

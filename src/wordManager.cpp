@@ -56,7 +56,8 @@ std::map<std::string, std::vector<std::string>*> getProbs(std::string actual) {
 // 1. for each word in words, sum entropy(word, other word). whichever word has the highest entropy is the word we select
 // 2. guess selected word, observe the outcome, suppose it is x = '..gy.'
 // 3. then in the map, for each word that had an outcome of x, guess a word in that set that had the highest entropy
-// 	also save words that are in the 5%ile and 95%ile of guesses to make the tree// 4. repeat 2-> 4 until word is found
+// 	also save words that are in the 5%ile and 95%ile of guesses to make the tree
+// 4. repeat 2-> 4 until word is found
 double calculateExpectedEntropyOfAWord(std::string word){
 	std::map<std::string, std::vector<std::string>*> wordMap = getProbs(word);
 	double sum = 0, p;

@@ -104,38 +104,36 @@ int main() {
 
         switch(gameState) {     //cheatsheet notes: 1280x720 min res
             case (Menu):         //MKDS max 40 characters at 1.0f scale
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f,
-                            grey);
-                RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f,
-                           green);
-                RenderText(MKDS_Characters, glyphShader, "Created by Haydon Behl and Neal Chandra",
-                           {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, green);
+                RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f);
+                RenderText(Glyph(MKDS_Characters, green), glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f);
+                RenderText(Glyph(MKDS_Characters, green), glyphShader, "Created by Haydon Behl and Neal Chandra",
+                           {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f);
 
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 320.0f, 440.0f,
-                            120.f, grey);
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 100.0f, 440.0f,
-                            120.f, grey);
+                RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Bottom}, 640.0f, 320.0f, 440.0f,
+                            120.f);
+                RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Bottom}, 640.0f, 100.0f, 440.0f,
+                            120.f);
 
                 switch (gameOption) {
                     case (Play):
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f,
-                                    420.0f, 100.f, white);
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f,
-                                    420.0f, 100.f, yellow);
-                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f,
-                                   1.0f, grey);
-                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f,
-                                   1.0f, green);
+                        RenderShape(Shape(ShapeForm::Rectangle, white), shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f,
+                                    420.0f, 100.f);
+                        RenderShape(Shape(ShapeForm::Rectangle, yellow), shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f,
+                                    420.0f, 100.f);
+                        RenderText(Glyph(MKDS_Characters, grey), glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f,
+                                   1.0f);
+                        RenderText(Glyph(MKDS_Characters, green), glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f,
+                                   1.0f);
                         break;
                     case (Quit):
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f,
-                                    420.0f, 100.f, yellow);
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f,
-                                    420.0f, 100.f, white);
-                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f,
-                                   1.0f, green);
-                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f,
-                                   1.0f, grey);
+                        RenderShape(Shape(ShapeForm::Rectangle, yellow), shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f,
+                                    420.0f, 100.f);
+                        RenderShape(Shape(ShapeForm::Rectangle, white), shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f,
+                                    420.0f, 100.f);
+                        RenderText(Glyph(MKDS_Characters, green), glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f,
+                                   1.0f);
+                        RenderText(Glyph(MKDS_Characters, grey), glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f,
+                                   1.0f);
                         break;
                 }
                 break;
@@ -149,34 +147,34 @@ int main() {
                     }
                     for (auto i: displayText) userinp->push(i);
                 }
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
-                RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
-                RenderText(MKDS_Characters, glyphShader, displayText, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, yellow);
+                RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f);
+                RenderText(Glyph(MKDS_Characters, green), glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f);
+                RenderText(Glyph(MKDS_Characters, yellow), glyphShader, displayText, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f);
                 if (!userinp->isFullStack() && !userinp->isEmptyStack())
-                    RenderText(MKDS_Characters, glyphShader, "ENTER?", {Align::Right, Align::Top}, 1080.0f, 650.0f, 1.0f, yellow);
+                    RenderText(Glyph(MKDS_Characters, yellow), glyphShader, "ENTER?", {Align::Right, Align::Top}, 1080.0f, 650.0f, 1.0f);
                 if (errorTime > 0)
-                    RenderText(MKDS_Characters, glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f, red);
+                    RenderText(Glyph(MKDS_Characters, red), glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f);
 
                 for (int i = 0; i < gameBoard.size(); i++) {
                     for (int j = 0; j < gameBoard[i].size(); j++) {
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 70.f, 76.f, grey);
+                        RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 70.f, 76.f);
                         if (i < attempt) {
                             switch (gameBoard[i][j][1]) {
                                 case('.'):
-                                    RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, grey);
+                                    RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f);
                                     break;
                                 case('y'):
-                                    RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, yellow);
+                                    RenderShape(Shape(ShapeForm::Rectangle, yellow), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f);
                                     break;
                                 case('g'):
-                                    RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, green);
+                                    RenderShape(Shape(ShapeForm::Rectangle, green), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f);
                                     break;
                             }
                             sillyTemp.pop_back();
                             sillyTemp += gameBoard[i][j][0];
-                            RenderText(MKDS_Characters, glyphShader, sillyTemp, {Align::Center, Align::Center}, 644.f + (j-2)*96.f, 74.f + (5-i)*96.f, 1.8f, white);
+                            RenderText(Glyph(MKDS_Characters, white), glyphShader, sillyTemp, {Align::Center, Align::Center}, 644.f + (j-2)*96.f, 74.f + (5-i)*96.f, 1.8f);
                         } else {
-                            RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f, white);
+                            RenderShape(Shape(ShapeForm::Rectangle, white), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f);
                         }
                     }
                 }

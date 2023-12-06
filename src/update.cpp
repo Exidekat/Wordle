@@ -93,6 +93,9 @@ void update() {
 void resetGameBoard() {
     attempt = 0;
     std::cout << "Resetting board...\n";
+    delete words;
+    words = new std::vector<std::string>();
+    getWords(*words, "src/words.txt");
     for (auto & i : gameBoard) {
         for (auto & j : i) {
             for (char & k : j) {

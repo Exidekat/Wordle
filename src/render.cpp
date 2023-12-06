@@ -1,6 +1,14 @@
 /* some shader/render stuff */
 #include "render.h"
 
+Shape::Shape(ShapeForm form, glm::vec4 color) {
+    this->form = form;
+    this->color = color;
+}
+Glyph::Glyph(std::map<char, Character> fCharacters, glm::vec4 color) : Shape(ShapeForm::Glyph, color) {
+    this->fCharacters = fCharacters;
+}
+
 //define shader
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
@@ -101,10 +109,9 @@ void Shader::setFloat(const std::string& name, float value) const
 void RenderShape(Shape shape,
                  Shader& s,
                  const std::array<Align, 2>& align,
-                 float x, float y, float w, float h,
-                 glm::vec4 color) {
-    switch (shape) {
-    case Shape::Rectangle: {
+                 float x, float y, float w, float h) {
+    switch (shape.form) {
+    case ShapeForm::Rectangle: {
         s.use();
         float xpos = x;
         float ypos = y;
@@ -139,35 +146,34 @@ void RenderShape(Shape shape,
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         // render quad
-        glUniform4f(glGetUniformLocation(s.ID, "uColor"), color.x, color.y, color.z, color.w);
+        glUniform4f(glGetUniformLocation(s.ID, "uColor"), shape.color.x, shape.color.y, shape.color.z, shape.color.w);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         break;
     }
-    case Shape::Circle: {
+    case ShapeForm::Circle: {
         s.use();
         glUniform2f(glGetUniformLocation(s.ID, "uCenter"), x, y);
-        glUniform4f(glGetUniformLocation(s.ID, "uColor"), color.x, color.y, color.z, color.w);
+        glUniform4f(glGetUniformLocation(s.ID, "uColor"), shape.color.x, shape.color.y, shape.color.z, shape.color.w);
         glUniform1f(glGetUniformLocation(s.ID, "uRadius2"), 100 * 100);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         break;
     }
-    case Shape::OutlinedCircle:
+    case ShapeForm::OutlinedCircle:
         break;
     }
 }
 
 /* Function for rendering line of text */
-void RenderText(std::map<char, Character> fCharacters,
+void RenderText(Glyph shape,
                 Shader& s,
                 const std::string& text,
                 const std::array<Align, 2>& align,
-                float x, float y, float scale,
-                glm::vec4 color) {
+                float x, float y, float scale) {
     // activate corresponding render state	
     s.use();
-    glUniform4f(glGetUniformLocation(s.ID, "textColor"), color.x, color.y, color.z, color.w);
+    glUniform4f(glGetUniformLocation(s.ID, "textColor"), shape.color.x, shape.color.y, shape.color.z, shape.color.w);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
     // iterate through all characters
@@ -175,13 +181,13 @@ void RenderText(std::map<char, Character> fCharacters,
     switch (align[0]) {
         case Align::Center: //shift to the horizontal center
             for (c = text.begin(); c != text.end(); c++) {
-                Character ch = fCharacters[*c];
+                Character ch = shape.fCharacters[*c];
                 x -= (ch.Advance >> 6) * scale / 2; // bitshift by 6 to get value in pixels (2^6 = 64)
             }
             break;
         case Align::Right: //shift to the far right
             for (c = text.begin(); c != text.end(); c++) {
-                Character ch = fCharacters[*c];
+                Character ch = shape.fCharacters[*c];
                 x -= (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64)
             }
             break;
@@ -192,7 +198,7 @@ void RenderText(std::map<char, Character> fCharacters,
     switch (align[1]) {
         case Align::Center: //shift to the vertical center
             for (c = text.begin(); c != text.end(); c++) {
-                Character ch = fCharacters[*c];
+                Character ch = shape.fCharacters[*c];
                 originLineShift += (ch.Size.y) * scale;
             }
             y -= originLineShift / text.size() / 2;
@@ -200,7 +206,7 @@ void RenderText(std::map<char, Character> fCharacters,
         case Align::Top: //shift to the top
 
             for (c = text.begin(); c != text.end(); c++) {
-                Character ch = fCharacters[*c];
+                Character ch = shape.fCharacters[*c];
                 originLineShift += (ch.Size.y) * scale;
             }
             y -= originLineShift / text.size();
@@ -210,7 +216,7 @@ void RenderText(std::map<char, Character> fCharacters,
     }
     for (c = text.begin(); c != text.end(); c++)
     {
-        Character ch = fCharacters[*c];
+        Character ch = shape.fCharacters[*c];
 
         float xpos = x + ch.Bearing.x * scale;
         float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
