@@ -1,9 +1,6 @@
 #include "wordle.h"
 
 int main() {
-    // START Game setup
-    auto playerQueue = new queueType<player>(20);
-
     /* Initialize glfw */
     if (!glfwInit())
         return -1;
@@ -106,35 +103,56 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         switch(gameState) {     //cheatsheet notes: 1280x720 min res
-            case(Menu):         //MKDS max 40 characters at 1.0f scale
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f, grey);
-                RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
-                RenderText(MKDS_Characters, glyphShader, "Created by Haydon Behl and Neal Chandra", {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, green);
+            case (Menu):         //MKDS max 40 characters at 1.0f scale
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Left, Align::Top}, 0.0f, 600.0f, 1280.0f, 2.0f,
+                            grey);
+                RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f,
+                           green);
+                RenderText(MKDS_Characters, glyphShader, "Created by Haydon Behl and Neal Chandra",
+                           {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, green);
 
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 320.0f, 440.0f, 120.f, grey);
-                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 100.0f, 440.0f, 120.f, grey);
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 320.0f, 440.0f,
+                            120.f, grey);
+                RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 100.0f, 440.0f,
+                            120.f, grey);
 
-                switch(gameOption) {
-                    case(Play):
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, white);
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, yellow);
-                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, grey);
-                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, green);
+                switch (gameOption) {
+                    case (Play):
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f,
+                                    420.0f, 100.f, white);
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f,
+                                    420.0f, 100.f, yellow);
+                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f,
+                                   1.0f, grey);
+                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f,
+                                   1.0f, green);
                         break;
-                    case(Quit):
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f, 420.0f, 100.f, yellow);
-                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f, 420.0f, 100.f, white);
-                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f, 1.0f, green);
-                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f, 1.0f, grey);
+                    case (Quit):
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 110.0f,
+                                    420.0f, 100.f, yellow);
+                        RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Bottom}, 640.0f, 330.0f,
+                                    420.0f, 100.f, white);
+                        RenderText(MKDS_Characters, glyphShader, "Quit", {Align::Center, Align::Bottom}, 640.0f, 150.0f,
+                                   1.0f, green);
+                        RenderText(MKDS_Characters, glyphShader, "Play", {Align::Center, Align::Bottom}, 640.0f, 370.0f,
+                                   1.0f, grey);
                         break;
                 }
                 break;
-            case(Gameover):
-            case(Game):
+            case (Gameover):
+            case (Game):
+                if (displayText != "You win!") {
+                    displayText = "";
+                    while (!userinp->isEmptyStack()) {
+                        displayText = userinp->top() + displayText;
+                        userinp->pop();
+                    }
+                    for (auto i: displayText) userinp->push(i);
+                }
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
                 RenderText(MKDS_Characters, glyphShader, displayText, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, yellow);
-                if (userinp->isFullStack())
+                if (!userinp->isFullStack() && !userinp->isEmptyStack())
                     RenderText(MKDS_Characters, glyphShader, "ENTER?", {Align::Right, Align::Top}, 1080.0f, 650.0f, 1.0f, yellow);
                 if (errorTime > 0)
                     RenderText(MKDS_Characters, glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f, red);
@@ -163,14 +181,6 @@ int main() {
                     }
                 }
                 break;
-        }
-        displayText = "";
-        while (!userinp->isEmptyStack()) {
-            displayText = userinp->top() + displayText;
-            userinp->pop();
-        }
-        for (auto i : displayText) {
-            userinp->push(i);
         }
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

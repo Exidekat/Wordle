@@ -50,6 +50,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 gameState = Menu;
                 delete userinp;
                 userinp = new stackType<char>(5);
+                displayText = "";
                 attempt = 0;
             } else if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp->isEmptyStack()) {
                 userinp->pop();
@@ -65,7 +66,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                         break;
                     }
                 }
-                if (userinp->isFullStack())
+                if (userinp->isFullStack() && displayText != "You win!")
                     errorTime = 2;
                 break;
             }
@@ -85,7 +86,6 @@ void update() {
     // Any game logic that must update without user input goes here
     if (attempt > 5 && displayText != "You win!") {
         displayText = "The word was " + answer;
-        errorTime = 1;
         gameState = Gameover;
     }
 }
@@ -104,7 +104,7 @@ void resetGameBoard() {
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(0,(*answers).size()-1);
     answer = (*answers)[dist(rng)];
-    //std::cout << "The answer to this game is: " << answer << "\n";
+    std::cout << "The answer to this game is: " << answer << "\n";
 }
 
 void initGuess() {
@@ -121,6 +121,7 @@ void initGuess() {
         std::cout << "You win!\n";
         displayText = "You win!";
     } else {
+        errorTime = 2;
 	    double wordMap = calculateExpectedEntropyOfAWord(displayText);
 	    //std::cout << wordMap[userinp] << std::endl;
         for (auto i : displayText) userinp->pop();
