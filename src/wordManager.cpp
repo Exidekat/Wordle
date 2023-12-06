@@ -124,57 +124,10 @@ std::map<std::string, double> getEntropyMap(){
 return out;
 }*/
 
-int oldmain() {
-	//std::vector<std::string> *words = new std::vector<std::string>();
-	//getWords(*words, "words.txt");        // now global
-
-	for (int i = 0; i < 10; i++){
-		// cout << words[i] << endl;
-	}
-
-
-	//we need to calculate the probability for all words, then we need to calculate p log(1/p) for all the words
-	//whichever value of entropy is highest is the best word. whichever has the entropy at the 25%ile and 75%ile will be used to make the tree
-	// 1. for each word in words, sum entropy(word, other word). whichever word has the highest entropy is the word we select
-	// 2. guess selected word, observe the outcome, suppose it is x = '..gy.'
-	// 3. then in the map, for each word that had an outcome of x, guess a word in that set that had the highest entropy
-	// 	also save words that are in the 5%ile and 95%ile of guesses to make the tree
-	// 4. repeat 2-> 4 until word is found 
-
-	std::string actual = "tests", guess;
-
-	while(guess != actual) {
-		std::cout << "Enter a guess word : " ;
-		std::cin >> guess;
-		std::string out = gameLogic(actual, guess);
-		//need to sort this based on length of vector<string>*
-
-		std::map<std::string, std::vector<std::string>*> wordMap = getProbs(guess);
-
-		double actualinfo;
-		double sum = 0, p;	
-		for (const auto& i : wordMap) {
-			p = i.second->size() / static_cast<double>(words->size());
-			sum += p* log2(1/p);
-			if (out == i.first){
-				actualinfo = p*log2(1/p);
-			}
-			std::cout << i.first << "\t";
-			for (const auto& element : *i.second) std::cout << element << " ";
-			std::cout << std::endl;
-		}
-
-
-
-
-		std::cout << std::endl << std::endl << "expected: " << sum << " actual: "<< actualinfo <<  std::endl;
-		std::vector<std::string>* subset = (wordMap[out]);
-		words = subset;
-		for (const auto& element: *subset) std::cout << element << " ";
-		std::cout << std::endl << subset->size() << std::endl;
-	}
-	return 0;
-}
-
-
+//we need to calculate the probability for all words, then we need to calculate p log(1/p) for all the words
+// whichever value of entropy is highest is the best word. whichever has the entropy at the 25%ile and 75%ile will be used to make the tree
+// 1. for each word in words, sum entropy(word, other word). whichever word has the highest entropy is the word we select
+// 2. guess selected word, observe the outcome, suppose it is x = '..gy.'
+// 3. then in the map, for each word that had an outcome of x, guess a word in that set that had the highest entropy
+// 	also save words that are in the 5%ile and 95%ile of guesses to make the tree// 4. repeat 2-> 4 until word is found
 

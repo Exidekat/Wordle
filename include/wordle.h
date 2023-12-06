@@ -30,13 +30,16 @@ enum Option {
     Quit,
 };
 
+inline stackType<char>* userinp;
+
 static double limitFPS = 60.0;
 inline double timeNow;
 inline bool gameActive = true;
 inline Option gameOption = Option::Play;
 inline State gameState = State::Menu;
 inline std::string answer;
-inline std::string userinp = "";
+inline std::string guess;
+inline std::string displayText = "";
 inline char charinp;
 inline std::vector<std::vector<std::vector<char>>> gameBoard(6, std::vector<std::vector<char>>(5, std::vector<char>(2)));
 inline int attempt;

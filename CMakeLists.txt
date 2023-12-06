@@ -21,8 +21,8 @@ else()
 endif()
 
 execute_process(COMMAND cmake -B ${PROJECT_SOURCE_DIR}/extern/freetype/build -D BUILD_SHARED_LIBS=true -D CMAKE_BUILD_TYPE=Release ${PROJECT_SOURCE_DIR}/extern/freetype)
-execute_process(COMMAND sudo cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build --target install) # installs freetype to machine
-#execute_process(COMMAND cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build) # does not install to machine
+#execute_process(COMMAND sudo cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build --target install) # installs freetype to machine
+execute_process(COMMAND cmake --build ${PROJECT_SOURCE_DIR}/extern/freetype/build) # does not install to machine
 link_directories(${PROJECT_SOURCE_DIR}/extern/freetype/build) # freetype does not play fair with add_subdirectory.
 add_subdirectory(${PROJECT_SOURCE_DIR}/extern/glm/)
 add_subdirectory(${PROJECT_SOURCE_DIR}/extern/glfw/)

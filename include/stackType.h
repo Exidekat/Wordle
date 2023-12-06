@@ -54,8 +54,8 @@ public:
 // elements is deleted.
     void reverseStack(stackType<Type>& otherStack);
 private:
-    int maxStackSize; //variable to store the maximum stack size
     int stackTop; //variable to point to the top of the stack
+    int maxStackSize; //variable to store the maximum stack size
     Type *list; //pointer to the array that holds the
 //stack elements
     void copyStack(const stackType<Type>& otherStack);

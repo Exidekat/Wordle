@@ -90,6 +90,7 @@ int main() {
     int frames = 0, updates = 0;
     timeNow = lastUpdateTime;
     std::string sillyTemp = "X"; // this is a silly temp variable
+    userinp = new stackType<char>(5); // This is a stack for user input
     while (!glfwWindowShouldClose(window) && gameActive) {
         // Render capped at 60fps
         while ((timeNow - lastUpdateTime) * limitFPS < 1.0) {
@@ -130,8 +131,8 @@ int main() {
             case(Game):
                 RenderShape(Shape::Rectangle, shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f, grey);
                 RenderText(MKDS_Characters, glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f, green);
-                RenderText(MKDS_Characters, glyphShader, userinp, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, yellow);
-                if (userinp.size() == 5)
+                RenderText(MKDS_Characters, glyphShader, displayText, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f, yellow);
+                if (userinp->isFullStack())
                     RenderText(MKDS_Characters, glyphShader, "ENTER?", {Align::Right, Align::Top}, 1080.0f, 650.0f, 1.0f, yellow);
                 if (errorTime > 0)
                     RenderText(MKDS_Characters, glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f, red);
@@ -161,6 +162,14 @@ int main() {
                 }
                 break;
         }
+        displayText = "";
+        while (!userinp->isEmptyStack()) {
+            displayText = userinp->top() + displayText;
+            userinp->pop();
+        }
+        for (auto i : displayText) {
+            userinp->push(i);
+        }
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
         /* Poll for and process events */
@@ -177,6 +186,7 @@ int main() {
     // memory management
     glfwTerminate();
     delete words;
+    delete answers;
 
     return 0;
 }

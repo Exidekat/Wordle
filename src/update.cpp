@@ -20,8 +20,8 @@ void char_callback(GLFWwindow* window, unsigned int codepoint) {
         case(Game):
             if (charinp > 'Z' || charinp < 'A')  // filter out invalid letters
                 return;
-            if (userinp.size() < 5)
-                userinp += charinp;
+            if (!userinp->isFullStack())
+                userinp->push(charinp);
             break;
     }
 }
@@ -46,25 +46,26 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 }
             break;
         case (Game):
-            if (action == GLFW_PRESS && userinp == "You win!") {
+            if (action == GLFW_PRESS && displayText == "You win!") {
                 gameState = Menu;
-                userinp = "";
+                delete userinp;
+                userinp = new stackType<char>(5);
                 attempt = 0;
-            } else if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp.empty()) {
-                userinp.pop_back();
+            } else if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp->isEmptyStack()) {
+                userinp->pop();
             } else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
-                if (userinp.size() < 5) {
+                if (!userinp->isFullStack()) {
                     errorTime = 2;
                     break;
                 }
                 for (const auto & i : *words) {
                     // std::cout << i << " =?= " << userinp << std::endl;
-                    if (userinp == i) {
+                    if (displayText == i) {
                         initGuess();
                         break;
                     }
                 }
-                if (userinp.size() == 5)
+                if (userinp->isFullStack())
                     errorTime = 2;
                 break;
             }
@@ -72,7 +73,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         case (Gameover):
             if (action == GLFW_PRESS) {
                 gameState = Menu;
-                userinp = "";
+                delete userinp;
+                userinp = new stackType<char>(5);
                 attempt = 0;
             }
             break;
@@ -81,8 +83,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void update() {
     // Any game logic that must update without user input goes here
-    if (attempt > 5 && userinp != "You win!") {
-        userinp = "The word was " + answer;
+    if (attempt > 5 && displayText != "You win!") {
+        displayText = "The word was " + answer;
         errorTime = 1;
         gameState = Gameover;
     }
@@ -106,27 +108,21 @@ void resetGameBoard() {
 }
 
 void initGuess() {
-    //std::cout << "That's a word!\n";
+    std::cout << "That's a word!\n";
     std::string hints;
-    hints = gameLogic(answer, userinp);
+    hints = gameLogic(answer, displayText);
     for (int i = 0; i < 5; i++) {
-        gameBoard[attempt][i][0] = userinp[i];
+        gameBoard[attempt][i][0] = displayText[i];
         gameBoard[attempt][i][1] = hints[i];
     }
     std::cout << hints <<"\n";
     attempt++;
     if (hints == "ggggg") {
         std::cout << "You win!\n";
-        userinp = "You win!";
+        displayText = "You win!";
     } else {
-    	
-	//std::cout << userinp << std::endl;	
-	//userinp = "";
-		
-	double wordMap = calculateExpectedEntropyOfAWord(userinp);
-	//std::cout << wordMap[userinp] << std::endl;
-    	userinp = "";
-
-	
+	    double wordMap = calculateExpectedEntropyOfAWord(displayText);
+	    //std::cout << wordMap[userinp] << std::endl;
+        for (auto i : displayText) userinp->pop();
     }
 }
