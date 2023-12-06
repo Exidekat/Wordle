@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.22)
 project(cmpe126project)
 
 set(CMAKE_CXX_STANDARD 17)
+if(CMAKE_COMPILER_IS_GNUCC AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+    message(FATAL_ERROR "Your compiler is outdated! Update GCC >= 7.0 to build this project.")
+endif()
 
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
@@ -36,7 +39,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_executable(cmpe126project
         src/glad/gl.c
-        src/player.cpp
         src/render.cpp
         src/main.cpp
         src/update.cpp

@@ -17,7 +17,6 @@
 #include "gtc/type_ptr.hpp"
 #include "stackType.h"
 #include "queueType.h"
-#include "player.h"
 #include "render.h"
 
 enum State {
@@ -38,7 +37,6 @@ inline bool gameActive = true;
 inline Option gameOption = Option::Play;
 inline State gameState = State::Menu;
 inline std::string answer;
-inline std::string guess;
 inline std::string displayText = "";
 inline char charinp;
 inline std::vector<std::vector<std::vector<char>>> gameBoard(6, std::vector<std::vector<char>>(5, std::vector<char>(2)));
@@ -53,6 +51,7 @@ void resetGameBoard();
 void initGuess();
 
 inline std::vector<std::string> *words;
+inline std::vector<std::string> *wordsPossible;
 inline std::vector<std::string> *answers;
 
 void getWords(std::vector<std::string> &v, std::string path);

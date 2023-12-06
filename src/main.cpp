@@ -76,6 +76,8 @@ int main() {
     /* Load word banks */
     words = new std::vector<std::string>();
     getWords(*words, "src/words.txt");
+    wordsPossible = new std::vector<std::string>();
+    getWords(*wordsPossible, "src/words.txt");
     answers = new std::vector<std::string>();
     getWords(*answers, "src/answers.txt");
 
@@ -186,6 +188,7 @@ int main() {
     // memory management
     glfwTerminate();
     delete words;
+    delete wordsPossible;
     delete answers;
 
     return 0;
