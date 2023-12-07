@@ -93,6 +93,5 @@ std::map<char, Character> fontLoad(const char* fontPath);
 inline const char* glyph_vertexShaderPath = "shaders/glyph.vs.glsl";
 inline const char* glyph_fragmentShaderPath = "shaders/glyph.fs.glsl";
 
-inline std::map<char, Character> Characters;
 inline unsigned int VAO, VBO;
 inline int fbw, fbh;

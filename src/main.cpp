@@ -37,12 +37,7 @@ int main() {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     /* Font loading! */
-    std::map<char, Character> arial_Characters = fontLoad("fonts/arial.ttf");
     std::map<char, Character> MKDS_Characters = fontLoad("fonts/MKDS.ttf");
-    std::map<char, Character> halflife_Characters = fontLoad("fonts/halflife.ttf");
-    std::map<char, Character> UbuntuB_Characters = fontLoad("fonts/Ubuntu-Bold.ttf");
-    std::map<char, Character> UbuntuM_Characters = fontLoad("fonts/Ubuntu-Medium.ttf");
-    std::map<char, Character> UbuntuR_Characters = fontLoad("fonts/Ubuntu-Regular.ttf");
 
     /* Enable blending*/
     glEnable(GL_BLEND);
