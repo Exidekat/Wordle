@@ -37,12 +37,7 @@ int main() {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     /* Font loading! */
-    std::map<char, Character> arial_Characters = fontLoad("fonts/arial.ttf");
     std::map<char, Character> MKDS_Characters = fontLoad("fonts/MKDS.ttf");
-    std::map<char, Character> halflife_Characters = fontLoad("fonts/halflife.ttf");
-    std::map<char, Character> UbuntuB_Characters = fontLoad("fonts/Ubuntu-Bold.ttf");
-    std::map<char, Character> UbuntuM_Characters = fontLoad("fonts/Ubuntu-Medium.ttf");
-    std::map<char, Character> UbuntuR_Characters = fontLoad("fonts/Ubuntu-Regular.ttf");
 
     /* Enable blending*/
     glEnable(GL_BLEND);
@@ -139,7 +134,7 @@ int main() {
                 break;
             case (Gameover):
             case (Game):
-                if (displayText != "You win!") {
+                if (attempts <= 5 && displayText != "You win!") {
                     displayText = "";
                     while (!userinp->isEmptyStack()) {
                         displayText = userinp->top() + displayText;
@@ -158,7 +153,7 @@ int main() {
                 for (int i = 0; i < gameBoard.size(); i++) {
                     for (int j = 0; j < gameBoard[i].size(); j++) {
                         RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 70.f, 76.f);
-                        if (i < attempt) {
+                        if (i < attempts) {
                             switch (gameBoard[i][j][1]) {
                                 case('.'):
                                     RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f);

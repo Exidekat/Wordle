@@ -111,57 +111,61 @@ void RenderShape(Shape shape,
                  const std::array<Align, 2>& align,
                  float x, float y, float w, float h) {
     switch (shape.form) {
-    case ShapeForm::Rectangle: {
-        s.use();
-        float xpos = x;
-        float ypos = y;
-        switch (align[0]) {
-            case Align::Center:
-                xpos = xpos - (w / 2);
-                break;
-            case Align::Right:
-                xpos = xpos - w;
-                break;
-            case Align::Left:
-                break;
+        case ShapeForm::Rectangle: {
+            s.use();
+            float xpos = x;
+            float ypos = y;
+            switch (align[0]) {
+                case Align::Center:
+                    xpos = xpos - (w / 2);
+                    break;
+                case Align::Right:
+                    xpos = xpos - w;
+                    break;
+                case Align::Left:
+                    break;
+            }
+            switch (align[1]) {
+                case Align::Center:
+                    ypos = ypos - (h / 2);
+                    break;
+                case Align::Top:
+                    ypos = ypos - h;
+                    break;
+                case Align::Bottom:
+                    break;
+            }
+            // update VBO for them VERTS
+            float vertices[6][4] = {
+                    {xpos,     ypos,     0.0f, 0.0f},
+                    {xpos + w, ypos,     0.0f, 1.0f},
+                    {xpos + w, ypos + h, 1.0f, 0.0f},
+                    {xpos,     ypos + h, 1.0f, 1.0f}
+            };
+            glBindVertexArray(VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+            // render quad
+            glUniform4f(glGetUniformLocation(s.ID, "uColor"), shape.color.x, shape.color.y, shape.color.z,
+                        shape.color.w);
+            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+            glBindVertexArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            break;
         }
-        switch (align[1]) {
-            case Align::Center:
-                ypos = ypos - (h / 2);
-                break;
-            case Align::Top:
-                ypos = ypos - h;
-                break;
-            case Align::Bottom:
-                break;
+        case ShapeForm::Circle: {
+            s.use();
+            glUniform2f(glGetUniformLocation(s.ID, "uCenter"), x, y);
+            glUniform4f(glGetUniformLocation(s.ID, "uColor"), shape.color.x, shape.color.y, shape.color.z,
+                        shape.color.w);
+            glUniform1f(glGetUniformLocation(s.ID, "uRadius2"), 100 * 100);
+            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+            break;
         }
-        // update VBO for them VERTS
-        float vertices[6][4] = {
-                {xpos,     ypos, 0.0f, 0.0f },
-                {xpos + w, ypos, 0.0f, 1.0f },
-                {xpos + w, ypos + h, 1.0f, 0.0f },
-                {xpos,     ypos + h, 1.0f, 1.0f }
-        };
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-        // render quad
-        glUniform4f(glGetUniformLocation(s.ID, "uColor"), shape.color.x, shape.color.y, shape.color.z, shape.color.w);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        glBindVertexArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        break;
-    }
-    case ShapeForm::Circle: {
-        s.use();
-        glUniform2f(glGetUniformLocation(s.ID, "uCenter"), x, y);
-        glUniform4f(glGetUniformLocation(s.ID, "uColor"), shape.color.x, shape.color.y, shape.color.z, shape.color.w);
-        glUniform1f(glGetUniformLocation(s.ID, "uRadius2"), 100 * 100);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-        break;
-    }
-    case ShapeForm::OutlinedCircle:
-        break;
+        case ShapeForm::OutlinedCircle:
+        case ShapeForm::Glyph:
+        default:
+            break;
     }
 }
 
