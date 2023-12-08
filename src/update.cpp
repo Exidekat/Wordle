@@ -51,7 +51,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 delete userinp;
                 userinp = new stackType<char>(5);
                 displayText = "";
-                attempt = 0;
+                attempts = 0;
             } else if ((key == GLFW_KEY_DELETE || key == GLFW_KEY_BACKSPACE) && action == GLFW_PRESS && !userinp->isEmptyStack()) {
                 userinp->pop();
             } else if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
@@ -76,7 +76,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
                 gameState = Menu;
                 delete userinp;
                 userinp = new stackType<char>(5);
-                attempt = 0;
+                attempts = 0;
             }
             break;
     }
@@ -84,14 +84,14 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void update() {
     // Any game logic that must update without user input goes here
-    if (attempt > 5 && displayText != "You win!") {
-        displayText = "The word was " + answer;
+    if (attempts > 5 && displayText != "You win!") {
+        displayText = "The Word Was " + answer;
         gameState = Gameover;
     }
 }
 
 void resetGameBoard() {
-    attempt = 0;
+    attempts = 0;
     std::cout << "Resetting board...\n";
     delete words;
     words = new std::vector<std::string>();
@@ -115,11 +115,11 @@ void initGuess() {
     std::string hints;
     hints = gameLogic(answer, displayText);
     for (int i = 0; i < 5; i++) {
-        gameBoard[attempt][i][0] = displayText[i];
-        gameBoard[attempt][i][1] = hints[i];
+        gameBoard[attempts][i][0] = displayText[i];
+        gameBoard[attempts][i][1] = hints[i];
     }
     std::cout << hints <<"\n";
-    attempt++;
+    attempts++;
     if (hints == "ggggg") {
         std::cout << "You win!\n";
         displayText = "You win!";

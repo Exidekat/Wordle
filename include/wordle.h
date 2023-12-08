@@ -40,7 +40,7 @@ inline std::string answer;
 inline std::string displayText = "";
 inline char charinp;
 inline std::vector<std::vector<std::vector<char>>> gameBoard(6, std::vector<std::vector<char>>(5, std::vector<char>(2)));
-inline int attempt;
+inline int attempts;
 inline int errorTime = 0; // used to print the x for 2 seconds
 
 void window_size_callback(GLFWwindow* window, int width, int height);

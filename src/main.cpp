@@ -134,7 +134,7 @@ int main() {
                 break;
             case (Gameover):
             case (Game):
-                if (displayText != "You win!") {
+                if (attempts <= 5 && displayText != "You win!") {
                     displayText = "";
                     while (!userinp->isEmptyStack()) {
                         displayText = userinp->top() + displayText;
@@ -153,7 +153,7 @@ int main() {
                 for (int i = 0; i < gameBoard.size(); i++) {
                     for (int j = 0; j < gameBoard[i].size(); j++) {
                         RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 70.f, 76.f);
-                        if (i < attempt) {
+                        if (i < attempts) {
                             switch (gameBoard[i][j][1]) {
                                 case('.'):
                                     RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Center}, 640.f + (j-2)*96.f, 64.f + (5-i)*96.f, 64.f, 70.f);
