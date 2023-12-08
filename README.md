@@ -5,6 +5,15 @@ CMPE 126 Lab Project '23
 >
 > Neal Chandra
 
+CMAKE Build/Run Instructions
+> cmake . -G "MinGW Makefiles"
+> make
+> ./cmpe126project
+
+Build/Run Notes:
+> Tested CMAKE generators: MinGW Makefiles
+> Executable target: "cmpe126project"
+
 Ingame Screenshots
 ![alt text]( ./screenshots/menu.png)
 ![alt text]( ./screenshots/win.png)
