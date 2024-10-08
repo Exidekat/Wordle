@@ -145,7 +145,7 @@ int main() {
                 RenderShape(Shape(ShapeForm::Rectangle, grey), shapeShader, {Align::Center, Align::Top}, 640.0f, 720.0f, 880.f, 120.f);
                 RenderText(Glyph(MKDS_Characters, green), glyphShader, "WORDLE!", {Align::Center, Align::Top}, 640.0f, 715.0f, 1.0f);
                 RenderText(Glyph(MKDS_Characters, yellow), glyphShader, displayText, {Align::Center, Align::Top}, 640.0f, 650.0f, 1.0f);
-                if (!userinp->isFullStack() && !userinp->isEmptyStack())
+                if (userinp->isFullStack() && !userinp->isEmptyStack())
                     RenderText(Glyph(MKDS_Characters, yellow), glyphShader, "ENTER?", {Align::Right, Align::Top}, 1080.0f, 650.0f, 1.0f);
                 if (errorTime > 0)
                     RenderText(Glyph(MKDS_Characters, red), glyphShader, "X", {Align::Left, Align::Top}, 240.0f, 710.0f, 2.0f);

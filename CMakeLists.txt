@@ -37,10 +37,10 @@ include_directories(${PROJECT_SOURCE_DIR}/extern/glm/glm)
 include_directories(${PROJECT_SOURCE_DIR}/extern/glfw/include)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-add_executable(cmpe126project
+add_executable(Wordle
         src/glad/gl.c
         src/render.cpp
         src/main.cpp
         src/update.cpp
         src/wordManager.cpp)
-target_link_libraries(cmpe126project glfw freetype)
+      target_link_libraries(Wordle glfw freetype)
