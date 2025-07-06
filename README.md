@@ -8,11 +8,11 @@ Authors
 CMake Build/Run Instructions
 > cmake . -G "MinGW Makefiles"  
 > make  
-> ./cmpe126project
+> ./Wordle.exe
 
 Build/Run Notes:
 > Tested CMAKE generators: "MinGW Makefiles"  
-> Executable target: "cmpe126project"
+> Executable target: "Wordle"
 
 Ingame Screenshots  
 ![alt text]( ./screenshots/menu.png)  
